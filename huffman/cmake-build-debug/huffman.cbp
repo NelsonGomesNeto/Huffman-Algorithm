@@ -1,0 +1,105 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CodeBlocks_project_file>
+	<FileVersion major="1" minor="6"/>
+	<Project>
+		<Option title="huffman"/>
+		<Option makefile_is_custom="1"/>
+		<Option compiler="gcc"/>
+		<Option virtualFolders="CMake Files\;"/>
+		<Build>
+			<Target title="all">
+				<Option working_dir="C:/Users/Teste/OneDrive/Documentos/ProgramC/P2/huffman/cmake-build-debug"/>
+				<Option type="4"/>
+				<MakeCommands>
+					<Build command="C:/CodeBlocks/MinGW/bin/mingw32-make.exe -f &quot;C:/Users/Teste/OneDrive/Documentos/ProgramC/P2/huffman/cmake-build-debug/Makefile&quot;  VERBOSE=1 all"/>
+					<CompileFile command="C:/CodeBlocks/MinGW/bin/mingw32-make.exe -f &quot;C:/Users/Teste/OneDrive/Documentos/ProgramC/P2/huffman/cmake-build-debug/Makefile&quot;  VERBOSE=1 &quot;$file&quot;"/>
+					<Clean command="C:/CodeBlocks/MinGW/bin/mingw32-make.exe -f &quot;C:/Users/Teste/OneDrive/Documentos/ProgramC/P2/huffman/cmake-build-debug/Makefile&quot;  VERBOSE=1 clean"/>
+					<DistClean command="C:/CodeBlocks/MinGW/bin/mingw32-make.exe -f &quot;C:/Users/Teste/OneDrive/Documentos/ProgramC/P2/huffman/cmake-build-debug/Makefile&quot;  VERBOSE=1 clean"/>
+				</MakeCommands>
+			</Target>
+			<Target title="huffman">
+				<Option output="C:/Users/Teste/OneDrive/Documentos/ProgramC/P2/huffman/cmake-build-debug/huffman.exe" prefix_auto="0" extension_auto="0"/>
+				<Option working_dir="C:/Users/Teste/OneDrive/Documentos/ProgramC/P2/huffman/cmake-build-debug"/>
+				<Option object_output="./"/>
+				<Option type="1"/>
+				<Option compiler="gcc"/>
+				<Compiler>
+					<Add directory="C:/CodeBlocks/MinGW/bin/../lib/gcc/mingw32/4.9.2/include/c++"/>
+					<Add directory="C:/CodeBlocks/MinGW/bin/../lib/gcc/mingw32/4.9.2/include/c++/mingw32"/>
+					<Add directory="C:/CodeBlocks/MinGW/bin/../lib/gcc/mingw32/4.9.2/include/c++/backward"/>
+					<Add directory="C:/CodeBlocks/MinGW/bin/../lib/gcc/mingw32/4.9.2/include"/>
+					<Add directory="C:/CodeBlocks/MinGW/bin/../lib/gcc/mingw32/4.9.2/../../../../include"/>
+					<Add directory="C:/CodeBlocks/MinGW/bin/../lib/gcc/mingw32/4.9.2/include-fixed"/>
+				</Compiler>
+				<MakeCommands>
+					<Build command="C:/CodeBlocks/MinGW/bin/mingw32-make.exe -f &quot;C:/Users/Teste/OneDrive/Documentos/ProgramC/P2/huffman/cmake-build-debug/Makefile&quot;  VERBOSE=1 huffman"/>
+					<CompileFile command="C:/CodeBlocks/MinGW/bin/mingw32-make.exe -f &quot;C:/Users/Teste/OneDrive/Documentos/ProgramC/P2/huffman/cmake-build-debug/Makefile&quot;  VERBOSE=1 &quot;$file&quot;"/>
+					<Clean command="C:/CodeBlocks/MinGW/bin/mingw32-make.exe -f &quot;C:/Users/Teste/OneDrive/Documentos/ProgramC/P2/huffman/cmake-build-debug/Makefile&quot;  VERBOSE=1 clean"/>
+					<DistClean command="C:/CodeBlocks/MinGW/bin/mingw32-make.exe -f &quot;C:/Users/Teste/OneDrive/Documentos/ProgramC/P2/huffman/cmake-build-debug/Makefile&quot;  VERBOSE=1 clean"/>
+				</MakeCommands>
+			</Target>
+			<Target title="huffman/fast">
+				<Option output="C:/Users/Teste/OneDrive/Documentos/ProgramC/P2/huffman/cmake-build-debug/huffman.exe" prefix_auto="0" extension_auto="0"/>
+				<Option working_dir="C:/Users/Teste/OneDrive/Documentos/ProgramC/P2/huffman/cmake-build-debug"/>
+				<Option object_output="./"/>
+				<Option type="1"/>
+				<Option compiler="gcc"/>
+				<Compiler>
+					<Add directory="C:/CodeBlocks/MinGW/bin/../lib/gcc/mingw32/4.9.2/include/c++"/>
+					<Add directory="C:/CodeBlocks/MinGW/bin/../lib/gcc/mingw32/4.9.2/include/c++/mingw32"/>
+					<Add directory="C:/CodeBlocks/MinGW/bin/../lib/gcc/mingw32/4.9.2/include/c++/backward"/>
+					<Add directory="C:/CodeBlocks/MinGW/bin/../lib/gcc/mingw32/4.9.2/include"/>
+					<Add directory="C:/CodeBlocks/MinGW/bin/../lib/gcc/mingw32/4.9.2/../../../../include"/>
+					<Add directory="C:/CodeBlocks/MinGW/bin/../lib/gcc/mingw32/4.9.2/include-fixed"/>
+				</Compiler>
+				<MakeCommands>
+					<Build command="C:/CodeBlocks/MinGW/bin/mingw32-make.exe -f &quot;C:/Users/Teste/OneDrive/Documentos/ProgramC/P2/huffman/cmake-build-debug/Makefile&quot;  VERBOSE=1 huffman/fast"/>
+					<CompileFile command="C:/CodeBlocks/MinGW/bin/mingw32-make.exe -f &quot;C:/Users/Teste/OneDrive/Documentos/ProgramC/P2/huffman/cmake-build-debug/Makefile&quot;  VERBOSE=1 &quot;$file&quot;"/>
+					<Clean command="C:/CodeBlocks/MinGW/bin/mingw32-make.exe -f &quot;C:/Users/Teste/OneDrive/Documentos/ProgramC/P2/huffman/cmake-build-debug/Makefile&quot;  VERBOSE=1 clean"/>
+					<DistClean command="C:/CodeBlocks/MinGW/bin/mingw32-make.exe -f &quot;C:/Users/Teste/OneDrive/Documentos/ProgramC/P2/huffman/cmake-build-debug/Makefile&quot;  VERBOSE=1 clean"/>
+				</MakeCommands>
+			</Target>
+			<Target title="edit_cache">
+				<Option working_dir="C:/Users/Teste/OneDrive/Documentos/ProgramC/P2/huffman/cmake-build-debug"/>
+				<Option type="4"/>
+				<MakeCommands>
+					<Build command="C:/CodeBlocks/MinGW/bin/mingw32-make.exe -f &quot;C:/Users/Teste/OneDrive/Documentos/ProgramC/P2/huffman/cmake-build-debug/Makefile&quot;  VERBOSE=1 edit_cache"/>
+					<CompileFile command="C:/CodeBlocks/MinGW/bin/mingw32-make.exe -f &quot;C:/Users/Teste/OneDrive/Documentos/ProgramC/P2/huffman/cmake-build-debug/Makefile&quot;  VERBOSE=1 &quot;$file&quot;"/>
+					<Clean command="C:/CodeBlocks/MinGW/bin/mingw32-make.exe -f &quot;C:/Users/Teste/OneDrive/Documentos/ProgramC/P2/huffman/cmake-build-debug/Makefile&quot;  VERBOSE=1 clean"/>
+					<DistClean command="C:/CodeBlocks/MinGW/bin/mingw32-make.exe -f &quot;C:/Users/Teste/OneDrive/Documentos/ProgramC/P2/huffman/cmake-build-debug/Makefile&quot;  VERBOSE=1 clean"/>
+				</MakeCommands>
+			</Target>
+			<Target title="rebuild_cache">
+				<Option working_dir="C:/Users/Teste/OneDrive/Documentos/ProgramC/P2/huffman/cmake-build-debug"/>
+				<Option type="4"/>
+				<MakeCommands>
+					<Build command="C:/CodeBlocks/MinGW/bin/mingw32-make.exe -f &quot;C:/Users/Teste/OneDrive/Documentos/ProgramC/P2/huffman/cmake-build-debug/Makefile&quot;  VERBOSE=1 rebuild_cache"/>
+					<CompileFile command="C:/CodeBlocks/MinGW/bin/mingw32-make.exe -f &quot;C:/Users/Teste/OneDrive/Documentos/ProgramC/P2/huffman/cmake-build-debug/Makefile&quot;  VERBOSE=1 &quot;$file&quot;"/>
+					<Clean command="C:/CodeBlocks/MinGW/bin/mingw32-make.exe -f &quot;C:/Users/Teste/OneDrive/Documentos/ProgramC/P2/huffman/cmake-build-debug/Makefile&quot;  VERBOSE=1 clean"/>
+					<DistClean command="C:/CodeBlocks/MinGW/bin/mingw32-make.exe -f &quot;C:/Users/Teste/OneDrive/Documentos/ProgramC/P2/huffman/cmake-build-debug/Makefile&quot;  VERBOSE=1 clean"/>
+				</MakeCommands>
+			</Target>
+		</Build>
+		<Unit filename="C:/Users/Teste/OneDrive/Documentos/ProgramC/P2/huffman/fotoIn.jpg">
+			<Option target="huffman"/>
+		</Unit>
+		<Unit filename="C:/Users/Teste/OneDrive/Documentos/ProgramC/P2/huffman/huffTree.c">
+			<Option target="huffman"/>
+		</Unit>
+		<Unit filename="C:/Users/Teste/OneDrive/Documentos/ProgramC/P2/huffman/huffTree.h">
+			<Option target="huffman"/>
+		</Unit>
+		<Unit filename="C:/Users/Teste/OneDrive/Documentos/ProgramC/P2/huffman/list.c">
+			<Option target="huffman"/>
+		</Unit>
+		<Unit filename="C:/Users/Teste/OneDrive/Documentos/ProgramC/P2/huffman/list.h">
+			<Option target="huffman"/>
+		</Unit>
+		<Unit filename="C:/Users/Teste/OneDrive/Documentos/ProgramC/P2/huffman/main.c">
+			<Option target="huffman"/>
+		</Unit>
+		<Unit filename="C:/Users/Teste/OneDrive/Documentos/ProgramC/P2/huffman/CMakeLists.txt">
+			<Option virtualFolder="CMake Files\"/>
+		</Unit>
+	</Project>
+</CodeBlocks_project_file>
