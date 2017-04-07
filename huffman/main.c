@@ -20,7 +20,7 @@ int main()
     return(1);
   }
 
-  long long int freq[256], i;
+  long long int freq[256]; int i;
   for (i = 0; i < 256; i ++)
     freq[i] = 0;
 
@@ -39,12 +39,20 @@ int main()
 
   printList(list);
 
+  printf("Compressed Tree:\n");
   huffTree_t *compressedTree = createTreeFromList(list);
   printf("PreOrder: "); printTreePreOrder(compressedTree); printf("\n");
   printf("InOrder: "); printTreeInOrder(compressedTree); printf("\n");
   printf("PosOrder: "); printTreePosOrder(compressedTree); printf("\n");
 
   printf("Total de Bytes: %lld\n", soma);
+
+  int sizeOfTree; scanf("%d", &sizeOfTree); i = 0;
+  printf("Decompressed Tree:\n");
+  huffTree_t *decompressedTree = NULL; createTreeFromPreFix(&decompressedTree, sizeOfTree, &i);
+  printf("PreOrder: "); printTreePreOrder(decompressedTree); printf("\n");
+  printf("InOrder: "); printTreeInOrder(decompressedTree); printf("\n");
+  printf("PosOrder: "); printTreePosOrder(decompressedTree); printf("\n");
 
   return(0);
 }

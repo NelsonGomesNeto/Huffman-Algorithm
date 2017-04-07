@@ -30,12 +30,29 @@ huffTree_t* createTree(unsigned char byte, long long int frequency, huffTree_t *
   temp->next = NULL;
 
   temp->left = left;
-  left->next = NULL;
+  if (left != NULL)
+    left->next = NULL;
 
   temp->right = right;
-  right->next = NULL;
+  if (right != NULL)
+    right->next = NULL;
 
   return(temp);
+}
+
+void createTreeFromPreFix(huffTree_t **newTree, int end, int *i)
+{
+  unsigned char expression;
+  if (scanf("%c", &expression) && expression == '*')
+  {
+    (*newTree) = createNode('*', 0);
+    (*i) ++; createTreeFromPreFix(&(*newTree)->left, end, &*i);
+    (*i) ++; createTreeFromPreFix(&(*newTree)->right, end, &*i);
+  }
+  else
+  {
+    (*newTree) = createNode(expression, 0);
+  }
 }
 
 bool isHuffTreeEmpty(huffTree_t *hm)
@@ -58,20 +75,6 @@ void swap(huffTree_t *a, huffTree_t *b)
   aux->frequency = a->frequency;
   a->frequency = b->frequency;
   b->frequency = aux->frequency;
-}
-
-void addInHuffTree(huffTree_t *hm, unsigned char byte, long long int frequency)
-{
-  //huffTree_t *temp = createList(byte, frenquency);
-  if (isHuffTreeEmpty(hm))
-  {
-    //hm = temp;
-  }
-  else
-  {
-    //temp->next = hm;
-
-  }
 }
 
 void addNext(huffTree_t *atual, huffTree_t *prox)

@@ -13,7 +13,7 @@ typedef struct _huffTree huffTree_t;
 huffTree_t* createNode(unsigned char byte, long long int frequency);
 huffTree_t* createTree(unsigned char byte, long long int frequency, huffTree_t *left, huffTree_t *right);
 
-//void makeTree()
+void createTreeFromPreFix(huffTree_t **newTree, int end, int *i);
 
 bool isHuffTreeEmpty(huffTree_t *hm);
 
