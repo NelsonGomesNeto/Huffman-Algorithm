@@ -3,6 +3,7 @@
 #include <stdbool.h>
 #include <string.h>
 #include <limits.h>
+#include <inttypes.h>
 #include "huffTree.h"
 #include "list.h"
 
@@ -19,11 +20,11 @@ int main()
     return(1);
   }
 
-  int freq[256], i;
+  long long int freq[256], i;
   for (i = 0; i < 256; i ++)
     freq[i] = 0;
 
-  int soma = 0;
+  long long int soma = 0;
   while (fscanf(pFile, "%c", &bytes) != EOF)
   {
     fprintf(newFile, "%c", bytes);
@@ -38,7 +39,12 @@ int main()
 
   printList(list);
 
-  printf("Total de Bytes: %d\n", soma);
+  huffTree_t *compressedTree = createTreeFromList(list);
+  printf("PreOrder: "); printTreePreOrder(compressedTree); printf("\n");
+  printf("InOrder: "); printTreeInOrder(compressedTree); printf("\n");
+  printf("PosOrder: "); printTreePosOrder(compressedTree); printf("\n");
+
+  printf("Total de Bytes: %lld\n", soma);
 
   return(0);
 }

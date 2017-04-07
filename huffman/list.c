@@ -21,7 +21,7 @@ void sortList(list_t *list)
 {
   if (list->size <= 1) return;
 
-  huffTree_t* o = list->head, *b;
+  huffTree_t *o = list->head, *b;
   while (o != NULL)
   {
     b = getNext(o);
@@ -39,22 +39,56 @@ void sortList(list_t *list)
   }
 }
 
-void addNode(list_t *list, huffTree_t *hm)
+void addNode(list_t *list, void *newNode /*huffTree_t*/)
 {
   if (list->size == 0)
   {
-    list->head = hm;
-    list->tail = hm;
+    list->head = newNode;
+    list->tail = newNode;
   }
   else
   {
-    addNext(list->tail, hm);
-    list->tail = hm;
+    addNext(list->tail, newNode);
+    list->tail = newNode;
   }
   list->size ++;
 }
 
-list_t* listFromArray(int array[])
+void addTreeSorted(list_t *list, void *newTree /*huffTree_t*/)
+{
+  huffTree_t *temp = (huffTree_t*) newTree;
+  if (list->size == 0)
+  {
+    list->head = temp; list->tail = temp;
+  }
+  else
+  {
+    huffTree_t *curr = list->head, *prev = NULL;
+    while (getNext(curr) != NULL && getFrequency(curr) < getFrequency(temp))
+    {
+      prev = curr;
+      curr = getNext(curr);
+    }
+    if (getFrequency(curr) < getFrequency(temp))
+    {
+      setNext(curr, temp);
+      list->tail = temp; // Só isso que faltava! Hopeing it to be :/
+    }
+    else if (prev != NULL)
+    {
+      setNext(temp, getNext(prev)); //temp->next = prev->next;
+      setNext(prev, temp); //prev->next = temp;
+    }
+    else
+    {
+      setNext(temp, curr); //temp->next = curr;
+      list->head = temp;
+    }
+  }
+  list->size ++;
+}
+
+list_t* listFromArray(long long int array[])
 {
   printf("Creating\n");
   list_t *list = createList();
@@ -64,10 +98,10 @@ list_t* listFromArray(int array[])
     if (array[i] != 0)
     {
       huffTree_t *temp;
-      if (i == '*')
-        temp = createNode('\e', array[i]);
-      else
-        temp = createNode(i, array[i]);
+      // if (i == '*')
+      //   temp = createNode('\e', array[i]);
+      // else
+      temp = createNode(i, array[i]);
 
       addNode(list, temp);
       // printf("%c ~~ %d\n", i, array[i]);
@@ -81,9 +115,20 @@ void* createTreeFromList(list_t *list)
   huffTree_t *curr = list->head;
   while (list->size > 1)
   {
+    int somaDeFrequencias = getFrequency(curr) + getFrequency(getNext(curr));
 
-    curr = getNext(curr);
+    list->head = getNext(getNext(curr));
+
+    huffTree_t *newTree = createTree('*', somaDeFrequencias, curr, getNext(curr));
+
+    addTreeSorted(list, newTree);
+
+    curr = list->head;
+    list->size -= 2;
   }
+  list->head = list->tail;
+
+  return(list->head);
 }
 
 void printList(list_t *list)

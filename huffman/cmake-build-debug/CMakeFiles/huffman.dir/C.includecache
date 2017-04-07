@@ -23,6 +23,8 @@ string.h
 -
 limits.h
 -
+inttypes.h
+-
 
 C:/Users/Teste/OneDrive/Documentos/ProgramC/P2/huffman/list.c
 list.h
@@ -42,6 +44,8 @@ stdbool.h
 string.h
 -
 limits.h
+-
+inttypes.h
 -
 huffTree.h
 C:/Users/Teste/OneDrive/Documentos/ProgramC/P2/huffman/huffTree.h
