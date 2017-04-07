@@ -1,0 +1,3 @@
+C:/Users/Francielle de Cassia/Desktop/huffman/cmake-build-debug/CMakeFiles/huffman.dir
+C:/Users/Francielle de Cassia/Desktop/huffman/cmake-build-debug/CMakeFiles/edit_cache.dir
+C:/Users/Francielle de Cassia/Desktop/huffman/cmake-build-debug/CMakeFiles/rebuild_cache.dir

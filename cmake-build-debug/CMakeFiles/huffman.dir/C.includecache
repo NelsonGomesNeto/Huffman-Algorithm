@@ -1,0 +1,54 @@
+#IncludeRegexLine: ^[ 	]*#[ 	]*(include|import)[ 	]*[<"]([^">]+)([">])
+
+#IncludeRegexScan: ^.*$
+
+#IncludeRegexComplain: ^$
+
+#IncludeRegexTransform: 
+
+C:/Users/Francielle de Cassia/Desktop/huffman/huffTree.c
+huffTree.h
+C:/Users/Francielle de Cassia/Desktop/huffman/huffTree.h
+list.h
+C:/Users/Francielle de Cassia/Desktop/huffman/list.h
+
+C:/Users/Francielle de Cassia/Desktop/huffman/huffTree.h
+stdio.h
+-
+stdlib.h
+-
+stdbool.h
+-
+string.h
+-
+limits.h
+-
+inttypes.h
+-
+
+C:/Users/Francielle de Cassia/Desktop/huffman/list.c
+list.h
+C:/Users/Francielle de Cassia/Desktop/huffman/list.h
+huffTree.h
+C:/Users/Francielle de Cassia/Desktop/huffman/huffTree.h
+
+C:/Users/Francielle de Cassia/Desktop/huffman/list.h
+
+C:/Users/Francielle de Cassia/Desktop/huffman/main.c
+stdio.h
+-
+stdlib.h
+-
+stdbool.h
+-
+string.h
+-
+limits.h
+-
+inttypes.h
+-
+huffTree.h
+C:/Users/Francielle de Cassia/Desktop/huffman/huffTree.h
+list.h
+C:/Users/Francielle de Cassia/Desktop/huffman/list.h
+
