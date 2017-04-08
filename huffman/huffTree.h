@@ -30,4 +30,8 @@ void printTreePreOrder(huffTree_t *tree);
 void printTreeInOrder(huffTree_t *tree);
 void printTreePosOrder(huffTree_t *tree);
 
+void createDictionary(huffTree_t *tree, long long int dictionary[][10], int bits[], int depth);
+
+void countTrashSize(long long int dictionary[][10], long long int *trashSize);
+
 #endif //HUFFTREE_H

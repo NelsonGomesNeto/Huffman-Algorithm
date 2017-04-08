@@ -139,3 +139,42 @@ void printTreePosOrder(huffTree_t *tree)
     printf("%c", tree->byte);
   }
 }
+
+void createDictionary(huffTree_t *tree, long long int dictionary[][10], int bits[], int depth)
+{
+	if(!isHuffTreeEmpty(tree))
+	{
+		if (isHuffTreeEmpty(tree->left) && isHuffTreeEmpty(tree->right))
+		{
+			int j;
+			for (j = 0; j < depth; j++)
+			{
+				dictionary[tree->byte][j] = bits[j];
+			}
+			if (j != 8)
+				dictionary[tree->byte][j] = -1;
+			dictionary[tree->byte][8] = depth;
+			dictionary[tree->byte][9] = tree->frequency;
+			//printf("[%c]", tree->byte);
+		}
+		else
+		{
+			bits[depth] = 0;
+			createDictionary(tree->left, dictionary, bits, depth + 1);
+			bits[depth] = 1;
+			createDictionary(tree->right, dictionary, bits, depth + 1);
+		}
+	}
+}
+
+
+void countTrashSize(long long int dictionary[][10], long long int *trashSize)
+{
+	int i;
+	for(i = 0; i < 256; i++)
+	{
+		if(dictionary[i][0] != -1)
+			*trashSize += (dictionary[i][8] * dictionary[i][9]) % 8;
+	}
+	*trashSize = 8 - (*trashSize % 8);
+}

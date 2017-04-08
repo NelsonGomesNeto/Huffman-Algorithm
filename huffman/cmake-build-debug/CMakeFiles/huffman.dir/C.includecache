@@ -6,13 +6,13 @@
 
 #IncludeRegexTransform: 
 
-C:/Users/Teste/OneDrive/Documentos/ProgramC/P2/huffman/huffTree.c
+C:/Users/lucas/Desktop/Huffman-master/huffman/huffTree.c
 huffTree.h
-C:/Users/Teste/OneDrive/Documentos/ProgramC/P2/huffman/huffTree.h
+C:/Users/lucas/Desktop/Huffman-master/huffman/huffTree.h
 list.h
-C:/Users/Teste/OneDrive/Documentos/ProgramC/P2/huffman/list.h
+C:/Users/lucas/Desktop/Huffman-master/huffman/list.h
 
-C:/Users/Teste/OneDrive/Documentos/ProgramC/P2/huffman/huffTree.h
+C:/Users/lucas/Desktop/Huffman-master/huffman/huffTree.h
 stdio.h
 -
 stdlib.h
@@ -26,15 +26,15 @@ limits.h
 inttypes.h
 -
 
-C:/Users/Teste/OneDrive/Documentos/ProgramC/P2/huffman/list.c
+C:/Users/lucas/Desktop/Huffman-master/huffman/list.c
 list.h
-C:/Users/Teste/OneDrive/Documentos/ProgramC/P2/huffman/list.h
+C:/Users/lucas/Desktop/Huffman-master/huffman/list.h
 huffTree.h
-C:/Users/Teste/OneDrive/Documentos/ProgramC/P2/huffman/huffTree.h
+C:/Users/lucas/Desktop/Huffman-master/huffman/huffTree.h
 
-C:/Users/Teste/OneDrive/Documentos/ProgramC/P2/huffman/list.h
+C:/Users/lucas/Desktop/Huffman-master/huffman/list.h
 
-C:/Users/Teste/OneDrive/Documentos/ProgramC/P2/huffman/main.c
+C:/Users/lucas/Desktop/Huffman-master/huffman/main.c
 stdio.h
 -
 stdlib.h
@@ -48,7 +48,7 @@ limits.h
 inttypes.h
 -
 huffTree.h
-C:/Users/Teste/OneDrive/Documentos/ProgramC/P2/huffman/huffTree.h
+C:/Users/lucas/Desktop/Huffman-master/huffman/huffTree.h
 list.h
-C:/Users/Teste/OneDrive/Documentos/ProgramC/P2/huffman/list.h
+C:/Users/lucas/Desktop/Huffman-master/huffman/list.h
 
