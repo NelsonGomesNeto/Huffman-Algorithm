@@ -1,6 +1,5 @@
 #ifndef HUFFTREE_H
 #define HUFFTREE_H
-
 #include <stdio.h>
 #include <stdlib.h>
 #include <stdbool.h>
@@ -26,12 +25,14 @@ void setNext(huffTree_t *atual, huffTree_t *next);
 long long int getFrequency(huffTree_t *atual);
 
 void printNode(huffTree_t *atual);
+void printTreeInFile(FILE *newFile, huffTree_t *tree);
 void printTreePreOrder(huffTree_t *tree);
 void printTreeInOrder(huffTree_t *tree);
 void printTreePosOrder(huffTree_t *tree);
 
-void createDictionary(huffTree_t *tree, long long int dictionary[][10], int bits[], int depth);
+void createDictionary(huffTree_t *tree, unsigned char dictionary[][2], long long int frequency[], unsigned char bits, int depth);
 
-void countTrashSize(long long int dictionary[][10], long long int *trashSize);
+int countTrashSize(unsigned char dictionary[][2], long long int frequency[]);
+int countTreeSize(huffTree_t *tree);
 
 #endif //HUFFTREE_H

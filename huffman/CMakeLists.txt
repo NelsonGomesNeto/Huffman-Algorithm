@@ -9,6 +9,9 @@ set(SOURCE_FILES
         list.c
         list.h
         main.c
+        binaryOperations.c
+        binaryOperations.h
+        fileSetup.h
         huffTree.c)
 
 add_executable(huffman ${SOURCE_FILES})

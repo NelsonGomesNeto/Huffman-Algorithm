@@ -4,9 +4,10 @@ set(CMAKE_DEPENDS_LANGUAGES
   )
 # The set of files for implicit dependencies of each language:
 set(CMAKE_DEPENDS_CHECK_C
-  "C:/Users/lucas/Desktop/Huffman-master/huffman/huffTree.c" "C:/Users/lucas/Desktop/Huffman-master/huffman/cmake-build-debug/CMakeFiles/huffman.dir/huffTree.c.obj"
-  "C:/Users/lucas/Desktop/Huffman-master/huffman/list.c" "C:/Users/lucas/Desktop/Huffman-master/huffman/cmake-build-debug/CMakeFiles/huffman.dir/list.c.obj"
-  "C:/Users/lucas/Desktop/Huffman-master/huffman/main.c" "C:/Users/lucas/Desktop/Huffman-master/huffman/cmake-build-debug/CMakeFiles/huffman.dir/main.c.obj"
+  "C:/Users/Teste/OneDrive/Documentos/ProgramC/P2/huffman/binaryOperations.c" "C:/Users/Teste/OneDrive/Documentos/ProgramC/P2/huffman/cmake-build-debug/CMakeFiles/huffman.dir/binaryOperations.c.obj"
+  "C:/Users/Teste/OneDrive/Documentos/ProgramC/P2/huffman/huffTree.c" "C:/Users/Teste/OneDrive/Documentos/ProgramC/P2/huffman/cmake-build-debug/CMakeFiles/huffman.dir/huffTree.c.obj"
+  "C:/Users/Teste/OneDrive/Documentos/ProgramC/P2/huffman/list.c" "C:/Users/Teste/OneDrive/Documentos/ProgramC/P2/huffman/cmake-build-debug/CMakeFiles/huffman.dir/list.c.obj"
+  "C:/Users/Teste/OneDrive/Documentos/ProgramC/P2/huffman/main.c" "C:/Users/Teste/OneDrive/Documentos/ProgramC/P2/huffman/cmake-build-debug/CMakeFiles/huffman.dir/main.c.obj"
   )
 set(CMAKE_C_COMPILER_ID "GNU")
 

@@ -1,5 +1,6 @@
 #include "huffTree.h"
 #include "list.h"
+#include "binaryOperations.h"
 
 struct _huffTree
 {
@@ -42,6 +43,8 @@ huffTree_t* createTree(unsigned char byte, long long int frequency, huffTree_t *
 
 void createTreeFromPreFix(huffTree_t **newTree, int end, int *i)
 {
+  if ((*i) == end) return;
+
   unsigned char expression;
   if (scanf("%c", &expression) && expression == '*')
   {
@@ -51,7 +54,19 @@ void createTreeFromPreFix(huffTree_t **newTree, int end, int *i)
   }
   else
   {
-    (*newTree) = createNode(expression, 0);
+    if (expression == 92)
+    {
+      int aux = expression;
+      scanf("%c", &expression);
+      if (expression == '*' || expression == 92)
+        (*newTree) = createNode(expression, 0);
+      else
+      {
+        (*newTree) = createNode(aux, 0);
+      }
+    }
+    else
+      (*newTree) = createNode(expression, 0);
   }
 }
 
@@ -114,9 +129,25 @@ void printTreePreOrder(huffTree_t *tree)
 {
   if (!isHuffTreeEmpty(tree))
   {
+    if (isHuffTreeEmpty(tree->left) && isHuffTreeEmpty(tree->right) && (tree->byte == '*' || tree->byte == 92))
+      printf("%c", 92);
+
     printf("%c", tree->byte);
     printTreePreOrder(tree->left);
     printTreePreOrder(tree->right);
+  }
+}
+
+void printTreeInFile(FILE *newFile, huffTree_t *tree)
+{
+  if (!isHuffTreeEmpty(tree))
+  {
+    if (isHuffTreeEmpty(tree->left) && isHuffTreeEmpty(tree->right) && (tree->byte == '*' || tree->byte == 92))
+      fprintf(newFile, "%c", 92);
+
+    fprintf(newFile, "%c", tree->byte);
+    printTreeInFile(newFile, tree->left);
+    printTreeInFile(newFile, tree->right);
   }
 }
 
@@ -125,6 +156,9 @@ void printTreeInOrder(huffTree_t *tree)
   if (!isHuffTreeEmpty(tree))
   {
     printTreeInOrder(tree->left);
+    if (isHuffTreeEmpty(tree->left) && isHuffTreeEmpty(tree->right) && (tree->byte == '*' || tree->byte == 92))
+      printf("%c", 92);
+
     printf("%c", tree->byte);
     printTreeInOrder(tree->right);
   }
@@ -136,45 +170,56 @@ void printTreePosOrder(huffTree_t *tree)
   {
     printTreePosOrder(tree->left);
     printTreePosOrder(tree->right);
+    if (isHuffTreeEmpty(tree->left) && isHuffTreeEmpty(tree->right) && (tree->byte == '*' || tree->byte == 92))
+      printf("%c", 92);
+
     printf("%c", tree->byte);
   }
 }
 
-void createDictionary(huffTree_t *tree, long long int dictionary[][10], int bits[], int depth)
+void createDictionary(huffTree_t *tree, unsigned char dictionary[][2], long long int frequency[], unsigned char byte, int depth)
 {
 	if(!isHuffTreeEmpty(tree))
 	{
 		if (isHuffTreeEmpty(tree->left) && isHuffTreeEmpty(tree->right))
 		{
-			int j;
-			for (j = 0; j < depth; j++)
-			{
-				dictionary[tree->byte][j] = bits[j];
-			}
-			if (j != 8)
-				dictionary[tree->byte][j] = -1;
-			dictionary[tree->byte][8] = depth;
-			dictionary[tree->byte][9] = tree->frequency;
+			dictionary[tree->byte][0] = byte >> (8 - depth);
+			dictionary[tree->byte][1] = depth;
+			frequency[tree->byte] = tree->frequency;
 			//printf("[%c]", tree->byte);
 		}
 		else
 		{
-			bits[depth] = 0;
-			createDictionary(tree->left, dictionary, bits, depth + 1);
-			bits[depth] = 1;
-			createDictionary(tree->right, dictionary, bits, depth + 1);
+			//bits =  0;
+			createDictionary(tree->left, dictionary, frequency, byte, depth + 1);
+			byte = setBit(byte, (7 - depth)); //byte |= 1 << (7 - depth);
+			createDictionary(tree->right, dictionary, frequency, byte, depth + 1);
 		}
 	}
 }
 
-
-void countTrashSize(long long int dictionary[][10], long long int *trashSize)
+int countTrashSize(unsigned char dictionary[][2], long long int frequency[])
 {
-	int i;
+	int i; long long int trashSize = 0;
 	for(i = 0; i < 256; i++)
 	{
-		if(dictionary[i][0] != -1)
-			*trashSize += (dictionary[i][8] * dictionary[i][9]) % 8;
+		if(frequency[i] != -1)
+			trashSize += (dictionary[i][1] * frequency[i]) % 8;
 	}
-	*trashSize = 8 - (*trashSize % 8);
+	trashSize = 8 - (trashSize % 8);
+  return(trashSize);
+}
+
+int countTreeSize(huffTree_t *tree)
+{
+  int sum = 0;
+  if (!isHuffTreeEmpty(tree))
+  {
+    if (isHuffTreeEmpty(tree->left) && isHuffTreeEmpty(tree->right) && (tree->byte == '*' || tree->byte == 92))
+      sum = 1;
+
+    sum += 1 + countTreeSize(tree->left);
+    sum += countTreeSize(tree->right);
+  }
+  return(sum);
 }
