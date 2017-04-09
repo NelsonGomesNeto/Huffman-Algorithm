@@ -11,10 +11,11 @@ typedef struct _huffTree huffTree_t;
 
 huffTree_t* createNode(unsigned char byte, long long int frequency);
 huffTree_t* createTree(unsigned char byte, long long int frequency, huffTree_t *left, huffTree_t *right);
-
-void createTreeFromPreFix(huffTree_t **newTree, int end, int *i);
+void createTreeFromPreFix(FILE *pFile, huffTree_t **newTree, int end, int *i);
 
 bool isHuffTreeEmpty(huffTree_t *hm);
+int height(huffTree_t *hm);
+
 
 bool isMoreFrequent(huffTree_t *a, huffTree_t *b);
 void swap(huffTree_t *a, huffTree_t *b);
@@ -30,9 +31,11 @@ void printTreePreOrder(huffTree_t *tree);
 void printTreeInOrder(huffTree_t *tree);
 void printTreePosOrder(huffTree_t *tree);
 
-void createDictionary(huffTree_t *tree, unsigned char dictionary[][2], long long int frequency[], unsigned char bits, int depth);
+void createDictionary(huffTree_t *tree, unsigned int dictionary[][2], long long int frequency[], unsigned int byte, int depth);
 
-int countTrashSize(unsigned char dictionary[][2], long long int frequency[]);
+int countTrashSize(unsigned int dictionary[][2], long long int frequency[]);
 int countTreeSize(huffTree_t *tree);
+
+void decompressBytes(FILE *pFile, FILE *newFile, huffTree_t *tree, int trashSize);
 
 #endif //HUFFTREE_H

@@ -7,6 +7,6 @@ unsigned int setBit(unsigned int byte, int i);
 
 bool isBitiSet(unsigned int byte, int i);
 
-void printByte(unsigned char byte);
+void printByte(unsigned int byte, int size);
 
 #endif //BINARYOPERATIONS_H

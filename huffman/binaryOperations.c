@@ -13,10 +13,10 @@ bool isBitiSet(unsigned int byte, int i)
   return(mask & byte);
 }
 
-void printByte(unsigned char byte)
+void printByte(unsigned int byte, int size)
 {
   int i;
-  for (i = 7; i >= 0; i --)
+  for (i = size - 1; i >= 0; i --)
     printf("%d", isBitiSet(byte, i));
 
   //printf("\n");

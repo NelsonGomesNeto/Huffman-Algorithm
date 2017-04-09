@@ -41,29 +41,27 @@ huffTree_t* createTree(unsigned char byte, long long int frequency, huffTree_t *
   return(temp);
 }
 
-void createTreeFromPreFix(huffTree_t **newTree, int end, int *i)
+void createTreeFromPreFix(FILE *pFile, huffTree_t **newTree, int end, int *i)
 {
   if ((*i) == end) return;
 
   unsigned char expression;
-  if (scanf("%c", &expression) && expression == '*')
+  if (fscanf(pFile, "%c", &expression) && expression == '*')
   {
     (*newTree) = createNode('*', 0);
-    (*i) ++; createTreeFromPreFix(&(*newTree)->left, end, &*i);
-    (*i) ++; createTreeFromPreFix(&(*newTree)->right, end, &*i);
+    (*i) ++; createTreeFromPreFix(pFile, &(*newTree)->left, end, &*i);
+    (*i) ++; createTreeFromPreFix(pFile, &(*newTree)->right, end, &*i);
   }
   else
   {
     if (expression == 92)
     {
       int aux = expression;
-      scanf("%c", &expression);
+      fscanf(pFile, "%c", &expression);
       if (expression == '*' || expression == 92)
         (*newTree) = createNode(expression, 0);
       else
-      {
         (*newTree) = createNode(aux, 0);
-      }
     }
     else
       (*newTree) = createNode(expression, 0);
@@ -74,6 +72,19 @@ bool isHuffTreeEmpty(huffTree_t *hm)
 {
   return(hm == NULL);
 }
+
+int max(int a, int b)
+{
+  return(a > b ? a : b);
+}
+
+int height(huffTree_t *avl)
+{
+  if (isHuffTreeEmpty(avl)) return(-1);
+
+  return(1 + max(height(avl->left), height(avl->right)));
+}
+
 
 bool isMoreFrequent(huffTree_t *a, huffTree_t *b)
 {
@@ -177,13 +188,14 @@ void printTreePosOrder(huffTree_t *tree)
   }
 }
 
-void createDictionary(huffTree_t *tree, unsigned char dictionary[][2], long long int frequency[], unsigned char byte, int depth)
+void createDictionary(huffTree_t *tree, unsigned int dictionary[][2], long long int frequency[], unsigned int byte, int depth)
 {
 	if(!isHuffTreeEmpty(tree))
 	{
 		if (isHuffTreeEmpty(tree->left) && isHuffTreeEmpty(tree->right))
 		{
-			dictionary[tree->byte][0] = byte >> (8 - depth);
+			dictionary[tree->byte][0] = byte >> (13 - depth);
+      //printByte(dictionary[tree->byte][0], 13); printf(" %c\n", tree->byte);
 			dictionary[tree->byte][1] = depth;
 			frequency[tree->byte] = tree->frequency;
 			//printf("[%c]", tree->byte);
@@ -192,13 +204,14 @@ void createDictionary(huffTree_t *tree, unsigned char dictionary[][2], long long
 		{
 			//bits =  0;
 			createDictionary(tree->left, dictionary, frequency, byte, depth + 1);
-			byte = setBit(byte, (7 - depth)); //byte |= 1 << (7 - depth);
+			byte = setBit(byte, (12 - depth)); //byte |= 1 << (7 - depth);
+      //printf("~~~"); printByte(byte); printf("# %d\n", byte);
 			createDictionary(tree->right, dictionary, frequency, byte, depth + 1);
 		}
 	}
 }
 
-int countTrashSize(unsigned char dictionary[][2], long long int frequency[])
+int countTrashSize(unsigned int dictionary[][2], long long int frequency[])
 {
 	int i; long long int trashSize = 0;
 	for(i = 0; i < 256; i++)
@@ -222,4 +235,51 @@ int countTreeSize(huffTree_t *tree)
     sum += countTreeSize(tree->right);
   }
   return(sum);
+}
+
+void decompressBytes(FILE *pFile, FILE *newFile, huffTree_t *tree, int trashSize)
+{
+  unsigned char stringToPrint[10], byte; int done = 0, i, j;
+  huffTree_t *curr = tree, *save;
+  while (fscanf(pFile, "%c", &byte) != EOF)
+  {
+    save = curr;
+    for (j = 0; j < done; j ++)
+      fprintf(newFile, "%c", stringToPrint[j]);
+
+    for (i = 7, done = 0; i >= 0; i --)
+    {
+      if (isBitiSet(byte, i))
+        curr = curr->right;
+      else
+        curr = curr->left;
+
+      if (isHuffTreeEmpty(curr->left) && isHuffTreeEmpty(curr->right))
+      {
+        stringToPrint[done ++] = curr->byte;
+        curr = tree;
+      }
+    }
+    //printByte(byte); printf(" ");
+  } //printf("\n");
+
+  curr = save;
+  for (i = 7, done = 0; i >= trashSize; i --)
+  {
+    if (isBitiSet(byte, i))
+      curr = curr->right;
+    else
+      curr = curr->left;
+
+    if (isHuffTreeEmpty(curr->left) && isHuffTreeEmpty(curr->right))
+    {
+      stringToPrint[done ++] = curr->byte;
+      curr = tree;
+    }
+  }
+
+  for (j = 0; j < done; j ++)
+    fprintf(newFile, "%c", stringToPrint[j]);
+
+  printf("\n");
 }
