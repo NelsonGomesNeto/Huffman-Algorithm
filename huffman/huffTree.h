@@ -16,7 +16,6 @@ void createTreeFromPreFix(FILE *pFile, huffTree_t **newTree, int end, int *i);
 bool isHuffTreeEmpty(huffTree_t *hm);
 int height(huffTree_t *hm);
 
-
 bool isMoreFrequent(huffTree_t *a, huffTree_t *b);
 void swap(huffTree_t *a, huffTree_t *b);
 

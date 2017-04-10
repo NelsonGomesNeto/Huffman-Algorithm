@@ -23,44 +23,41 @@ unsigned char* createHeader(int trashSize, int treeSize, huffTree_t *tree)
   return(bytes);
 }
 
-int absI(int num)
-{
-  return(num < 0 ? num * (-1) : num);
-}
-
 void compressFile(FILE *pFile, unsigned char *header, unsigned int dictionary[][2], huffTree_t *tree)
 {
   FILE *newFile = fopen("textoOut.txt", "wb");
   fprintf(newFile, "%c%c", header[0], header[1]);
   printTreeInFile(newFile, tree);
 
-  unsigned char byte = 0, newByte = 0; int pos = 0;
+  unsigned char byte = 0, newByte = 0; int pos = 0; int needsToEnd = 0;
   while (fscanf(pFile, "%c", &byte) != EOF)
   {
-    if (dictionary[byte][1] >= 8)
+    needsToEnd = 0;
+    if (pos == 8)
     {
-      newByte |= dictionary[byte][0] >> (dictionary[byte][1] - (8 - pos));
       fprintf(newFile, "%c", newByte);
-      printByte(newByte, 8); printf("=%c#%d ", byte, pos);
-      newByte = dictionary[byte][0] << 8;
-      pos = dictionary[byte][1] - 8; //> 8 ? 8 : dictionary[byte][1];
-    }
-    else if (pos + dictionary[byte][1] >= 8)
-    {
-      newByte |= dictionary[byte][0] >> (dictionary[byte][1] - (8 - pos));
-      fprintf(newFile, "%c", newByte);
-      printByte(newByte, 8); printf("=%c#%d ", byte, pos);
       newByte = 0;
-      /*if ((dictionary[byte][1] - (8 - pos)) > 8)
+      pos = 0;
+    }
+    if (pos + dictionary[byte][1] >= 8)
+    {
+      printf("Then ended ");
+      newByte |= dictionary[byte][0] >> (dictionary[byte][1] - (8 - pos));
+      fprintf(newFile, "%c", newByte);
+      printByte(newByte, 8); printf("=%c#%dHERE ", byte, pos);
+      newByte = 0;
+      needsToEnd = (8 - pos);
+      if ((dictionary[byte][1] - (8 - pos)) > 8)
       {
           printf("\n\nWTF: %d\n\n", 8 - (dictionary[byte][1] - (8 - pos)));
-        newByte |= dictionary[byte][0] >> (dictionary[byte][1] - 8);
+        newByte |= dictionary[byte][0] >> (dictionary[byte][1] - 8 - needsToEnd);
         fprintf(newFile, "%c", newByte);
-        printByte(newByte, 8); printf("=%c#%d ", byte, pos);
-        newByte = dictionary[byte][0] << (dictionary[byte][1] - 8);
-        pos = dictionary[byte][1] - 8; //> 8 ? 8 : dictionary[byte][1];
+        printByte(newByte, 8); printf("=%c#%dCOF ", byte, pos);
+        newByte = dictionary[byte][0] << (8 - (dictionary[byte][1] - 8 - needsToEnd));
+        printf("Like This: ##"); printByte(newByte, 8); printf("|%d| ", needsToEnd);
+        pos = dictionary[byte][1] - 8 - needsToEnd; //> 8 ? 8 : dictionary[byte][1];
       }
-      else */if (dictionary[byte][1] >= 8)
+      else if (dictionary[byte][1] >= 8)
       {
         newByte |= dictionary[byte][0] << (8 - (dictionary[byte][1] - (8 - pos)));
         pos = (dictionary[byte][1] - (8 - pos));
@@ -69,12 +66,14 @@ void compressFile(FILE *pFile, unsigned char *header, unsigned int dictionary[][
       else
       {
         newByte |= dictionary[byte][0] << (8 - (dictionary[byte][1] - (8 - pos)));
+        printByte(newByte, 8); printf("=%c#%d ", byte, pos);
         pos = (dictionary[byte][1] - (8 - pos));
       }
     }
     else
     {
       newByte |= dictionary[byte][0] << (8 - dictionary[byte][1] - pos);
+      printByte(newByte, 8); printf("=%c#%d ", byte, pos);
       pos += dictionary[byte][1];
     }
   }

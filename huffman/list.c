@@ -104,7 +104,7 @@ list_t* listFromArray(long long int array[])
       temp = createNode(i, array[i]);
 
       addNode(list, temp);
-      // printf("%c ~~ %d\n", i, array[i]);
+      // printf("-> |%c~%lld|", i, array[i]);
     }
   }
   return(list);
