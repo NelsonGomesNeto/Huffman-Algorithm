@@ -68,6 +68,53 @@ void createTreeFromPreFix(FILE *pFile, huffTree_t **newTree, int end, int *i)
   }
 }
 
+huffTree_t* createTreeFromFile()
+{
+  FILE *pFile;
+  pFile = fopen("textoIn.txt", "rb");
+
+  if (pFile == NULL)
+  {
+    printf("We weren't able to find this file!\n");
+    return(NULL);
+  }
+
+  long long int freq[256]; int i;
+  for (i = 0; i < 256; i ++)
+    freq[i] = 0;
+
+  unsigned char bytes;
+  long long int soma = 0;
+  while (fscanf(pFile, "%c", &bytes) != EOF)
+  {
+    //fprintf(newFile, "%c", bytes);
+    freq[bytes] ++; soma ++; // contagem de char no lugar certo!
+  }
+
+  if (soma == 0)
+  {
+    printf("This file is too god-like, it's so damn compressed that it's better to leave the way it is\n");
+    return(NULL);
+  }
+
+  fclose(pFile);
+
+  printf("It's fine until here\n"); fflush(stdout);
+
+  list_t *list = listFromArray(freq);
+
+  sortList(list);
+
+  printList(list);
+
+  printf("Total de Bytes: %lld\n", soma);
+
+  printf("Compressed Tree:\n");
+  huffTree_t *compressedTree = createTreeFromList(list);
+
+  return(compressedTree);
+}
+
 bool isHuffTreeEmpty(huffTree_t *hm)
 {
   return(hm == NULL);
@@ -188,37 +235,40 @@ void printTreePosOrder(huffTree_t *tree)
   }
 }
 
-void createDictionary(huffTree_t *tree, unsigned int dictionary[][2], long long int frequency[], unsigned int byte, int depth)
+void createDictionary(huffTree_t *tree, bool dictionary[][256], int bitsQuantity[], long long int frequency[], bool bits[], int depth)
 {
 	if(!isHuffTreeEmpty(tree))
 	{
 		if (isHuffTreeEmpty(tree->left) && isHuffTreeEmpty(tree->right))
 		{
-			dictionary[tree->byte][0] = byte >> (13 - depth);
+      int i;
+      for (i = 0; i < depth; i ++)
+        dictionary[tree->byte][i] = bits[i];
+
+      bitsQuantity[tree->byte] = depth;
+      frequency[tree->byte] = tree->frequency;
+			//dictionary[tree->byte][0] = byte >> (13 - depth);
       //printByte(dictionary[tree->byte][0], 13); printf(" %c\n", tree->byte);
-			dictionary[tree->byte][1] = depth;
-			frequency[tree->byte] = tree->frequency;
 			//printf("[%c]", tree->byte);
 		}
 		else
 		{
-			//bits =  0;
-			createDictionary(tree->left, dictionary, frequency, byte, depth + 1);
-			byte = setBit(byte, (12 - depth)); //byte |= 1 << (7 - depth);
+			bits[depth] = 0;
+			createDictionary(tree->left, dictionary, bitsQuantity, frequency, bits, depth + 1);
+			bits[depth] = 1; //byte = setBit(byte, (12 - depth));
       //printf("~~~"); printByte(byte); printf("# %d\n", byte);
-			createDictionary(tree->right, dictionary, frequency, byte, depth + 1);
+			createDictionary(tree->right, dictionary, bitsQuantity, frequency, bits, depth + 1);
 		}
 	}
 }
 
-int countTrashSize(unsigned int dictionary[][2], long long int frequency[])
+int countTrashSize(int bitsQuantity[], long long int frequency[])
 {
 	int i; long long int trashSize = 0;
-	for(i = 0; i < 256; i++)
-	{
+	for(i = 0; i < 256; i ++)
 		if(frequency[i] != -1)
-			trashSize += (dictionary[i][1] * frequency[i]) % 8;
-	}
+			trashSize += (bitsQuantity[i] * frequency[i]) % 8;
+
 	trashSize = 8 - (trashSize % 8);
   return(trashSize);
 }

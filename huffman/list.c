@@ -48,7 +48,7 @@ void addNode(list_t *list, void *newNode /*huffTree_t*/)
   }
   else
   {
-    addNext(list->tail, newNode);
+    setNext(list->tail, newNode);
     list->tail = newNode;
   }
   list->size ++;
@@ -113,7 +113,7 @@ list_t* listFromArray(long long int array[])
 void* createTreeFromList(list_t *list)
 {
   huffTree_t *curr = list->head;
-  while (list->size > 1)
+  do
   {
     int somaDeFrequencias = getFrequency(curr) + getFrequency(getNext(curr));
 
@@ -125,7 +125,7 @@ void* createTreeFromList(list_t *list)
 
     curr = list->head;
     list->size -= 2;
-  }
+  } while (list->size > 1);
   list->head = list->tail;
 
   return(list->head);
