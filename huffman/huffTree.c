@@ -1,6 +1,7 @@
 #include "huffTree.h"
 #include "list.h"
 #include "binaryOperations.h"
+#include "progressBar.h"
 
 struct _huffTree
 {
@@ -68,10 +69,10 @@ void createTreeFromPreFix(FILE *pFile, huffTree_t **newTree, int end, int *i)
   }
 }
 
-huffTree_t* createTreeFromFile()
+huffTree_t* createTreeFromFile(char pathFile[])
 {
   FILE *pFile;
-  pFile = fopen("textoIn.txt", "rb");
+  pFile = fopen(pathFile, "rb");
 
   if (pFile == NULL)
   {
@@ -87,9 +88,9 @@ huffTree_t* createTreeFromFile()
   long long int soma = 0;
   while (fscanf(pFile, "%c", &bytes) != EOF)
   {
-    //fprintf(newFile, "%c", bytes);
     freq[bytes] ++; soma ++; // contagem de char no lugar certo!
   }
+  updateProgress(10);
 
   if (soma == 0)
   {
@@ -99,18 +100,18 @@ huffTree_t* createTreeFromFile()
 
   fclose(pFile);
 
-  printf("It's fine until here\n"); fflush(stdout);
-
   list_t *list = listFromArray(freq);
+  updateProgress(15);
 
   sortList(list);
+  updateProgress(20);
 
-  printList(list);
+  //printList(list);
 
-  printf("Total de Bytes: %lld\n", soma);
+  //printf("Total de Bytes: %lld\n", soma);
 
-  printf("Compressed Tree:\n");
   huffTree_t *compressedTree = createTreeFromList(list);
+  updateProgress(25);
 
   return(compressedTree);
 }
@@ -148,11 +149,6 @@ void swap(huffTree_t *a, huffTree_t *b)
   aux->frequency = a->frequency;
   a->frequency = b->frequency;
   b->frequency = aux->frequency;
-}
-
-void addNext(huffTree_t *atual, huffTree_t *prox)
-{
-  atual->next = prox;
 }
 
 huffTree_t* getNext(huffTree_t *atual)

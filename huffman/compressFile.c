@@ -6,23 +6,19 @@ unsigned char* createHeader(int trashSize, int treeSize, huffTree_t *tree)
   bytes[0] = trashSize << 5 | treeSize >> 8;
   bytes[1] = treeSize;
 
-  printf("Header: %c%c", bytes[0], bytes[1]);
-  printTreePreOrder(tree); printf("\n");
-  //printByte(bytes[0]);
-  //printByte(bytes[1]);
+  //printf("Header: %c%c", bytes[0], bytes[1]);
+  //printTreePreOrder(tree); printf("\n");
   return(bytes);
 }
 
-void compress()
+void compress(char pathFile[])
 {
-  huffTree_t *compressedTree = createTreeFromFile();
+  huffTree_t *compressedTree = createTreeFromFile(pathFile);
   if (isHuffTreeEmpty(compressedTree))
     return;
 
-  printf("Compressed Tree:\n");
-  printf("PreOrder: "); printTreePreOrder(compressedTree); printf("\n");
-  printf("InOrder: "); printTreeInOrder(compressedTree); printf("\n");
-  printf("PosOrder: "); printTreePosOrder(compressedTree); printf("\n");
+  //printf("Compressed Tree:\n");
+  //printf("PreOrder: "); printTreePreOrder(compressedTree); printf("\n");
 
   bool dictionary[256][256]; int bitsQuantity[256];
   long long int frequency[256]; int i;
@@ -31,41 +27,49 @@ void compress()
 
   bool bits[256];
   createDictionary(compressedTree, dictionary, bitsQuantity, frequency, bits, 0);
-
-  for(i = 0; i < 256; i ++)
-  {
-    if(frequency[i] != -1)
-    {
-      //printf("%d", dictionary[i][0]);
-      //printByte(dictionary[i][0], 13);
-      printf(" tam = %d freq = %lld char = %c\n", bitsQuantity[i], frequency[i], i);
-    }
-  }
+  updateProgress(30);
 
   int trashSize = countTrashSize(bitsQuantity, frequency);
   int treeSize = countTreeSize(compressedTree);
-  printf("Trash Size: %d || Tree Size: %d\n", trashSize, treeSize);
+  //printf("Trash Size: %d || Tree Size: %d\n", trashSize, treeSize);
 
   unsigned char *header = createHeader(trashSize, treeSize, compressedTree);
 
-  FILE *pFile = fopen("textoIn.txt", "rb");
-  compressFile(pFile, header, dictionary, bitsQuantity, compressedTree);
-  fclose(pFile);
+  compressFile(pathFile, header, dictionary, bitsQuantity, compressedTree);
+  updateProgress(100);
 }
 
-void compressFile(FILE *pFile, unsigned char *header, bool dictionary[][256], int bitsQuantity[], huffTree_t *tree)
+void compressFile(char pathFile[], unsigned char *header, bool dictionary[][256], int bitsQuantity[], huffTree_t *tree)
 {
-  FILE *newFile = fopen("textoOut.txt", "wb");
+  FILE *pFile = fopen(pathFile, "rb");
+  fseek(pFile, 0, SEEK_END);
+  long long int fileSize = ftell(pFile);
+  rewind(pFile);
+
+  int endOfName = strlen(pathFile);
+  int i, j;
+  for (i = endOfName; i >= 0 && pathFile[i] != '\\';)
+    i --;
+
+  char newFileName[1000]; i ++;
+  for (j = 0; i < endOfName; j ++, i ++)
+    newFileName[j] = pathFile[i];
+
+  newFileName[j] = '\0';
+
+  strcat(newFileName, ".huff");
+
+  FILE *newFile = fopen(newFileName, "wb");
   fprintf(newFile, "%c%c", header[0], header[1]);
   printTreeInFile(newFile, tree);
 
+  long long int progress = 0; int atual = 20;
   unsigned char byte = 0, newByte = 0; int pos = 0;
   while (fscanf(pFile, "%c", &byte) != EOF)
   {
     int i;
     for (i = 0; i < bitsQuantity[byte]; i ++, pos ++)
     {
-      //printf("%d", dictionary[byte][i]);
       pos %= 8;
       if (dictionary[byte][i])
         newByte = setBit(newByte, 7 - pos);
@@ -73,17 +77,20 @@ void compressFile(FILE *pFile, unsigned char *header, bool dictionary[][256], in
       if ((pos + 1) % 8 == 0)
       {
         fprintf(newFile, "%c", newByte);
-        //printByte(newByte, 8); printf(" ");
+        if (progress / fileSize > atual)
+          updateProgress(atual ++);
+          
         newByte = 0;
       }
-    } //printf(" ");
+    }
+    progress ++;
   }
 
   if (header[0] >> 5 != 0) // Se o trashSize for diferente de zero
-  {
     fprintf(newFile, "%c", newByte);
-    //printByte(newByte, 8);
-  }
-  printf("\n");
+
+  //printf("\n");
   fclose(newFile);
+  fclose(pFile);
+  updateProgress(0);
 }

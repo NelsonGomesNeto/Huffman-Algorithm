@@ -28,10 +28,7 @@ void sortList(list_t *list)
     while (b != NULL)
     {
       if (isMoreFrequent(o, b))
-      {
         swap(o, b);
-        //printf("Is it?\n");
-      }
 
       b = getNext(b);
     }
@@ -90,7 +87,6 @@ void addTreeSorted(list_t *list, void *newTree /*huffTree_t*/)
 
 list_t* listFromArray(long long int array[])
 {
-  printf("Creating\n");
   list_t *list = createList();
   int i;
   for (i = 0; i < 256; i ++)
@@ -98,13 +94,9 @@ list_t* listFromArray(long long int array[])
     if (array[i] != 0)
     {
       huffTree_t *temp;
-      // if (i == '*')
-      //   temp = createNode('\e', array[i]);
-      // else
       temp = createNode(i, array[i]);
 
       addNode(list, temp);
-      // printf("-> |%c~%lld|", i, array[i]);
     }
   }
   return(list);

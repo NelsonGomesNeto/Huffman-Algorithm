@@ -8,11 +8,12 @@
 #include "huffTree.h"
 #include "list.h"
 #include "binaryOperations.h"
+#include "progressBar.h"
 
 unsigned char* createHeader(int trashSize, int treeSize, huffTree_t *tree);
 
-void compress();
+void compress(char pathFile[]);
 
-void compressFile(FILE *pFile, unsigned char *header, bool dictionary[][256], int bitsQuantity[], huffTree_t *tree);
+void compressFile(char pathFile[], unsigned char *header, bool dictionary[][256], int bitsQuantity[], huffTree_t *tree);
 
 #endif //COMPRESSFILE_H
