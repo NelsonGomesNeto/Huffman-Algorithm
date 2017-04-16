@@ -1,0 +1,3 @@
+C:/Users/Teste/OneDrive/Documentos/ProgramC/P2/huffman/cmake-build-debug/CMakeFiles/huffman.dir
+C:/Users/Teste/OneDrive/Documentos/ProgramC/P2/huffman/cmake-build-debug/CMakeFiles/edit_cache.dir
+C:/Users/Teste/OneDrive/Documentos/ProgramC/P2/huffman/cmake-build-debug/CMakeFiles/rebuild_cache.dir
