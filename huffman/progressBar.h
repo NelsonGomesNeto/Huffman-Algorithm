@@ -10,7 +10,8 @@
 
 //And in the point you want to clear the screen:
 //....
-void updateProgress(double porcentage);
+void updateProgress(char string[], double porcentage);
 //....
+long long int* createProgressBar(FILE *pFile);
 
 #endif //PROGRESSBAR_H

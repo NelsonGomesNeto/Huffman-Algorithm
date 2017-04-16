@@ -10,10 +10,18 @@
 #include "binaryOperations.h"
 #include "progressBar.h"
 
-unsigned char* createHeader(int trashSize, int treeSize, huffTree_t *tree);
+// Receives the trash size, the tree size
+// Returns the header in a size two array of unsigned char
+unsigned char* createHeader(int trashSize, int treeSize);
 
 void compress(char pathFile[]);
 
+void multipleCompress(char quantityString[], char pathFile[]);
+
 void compressFile(char pathFile[], unsigned char *header, bool dictionary[][256], int bitsQuantity[], huffTree_t *tree);
+
+char* createCompressedFileName(char pathFile[]);
+
+void fixExtension(char pathFile[]);
 
 #endif //COMPRESSFILE_H

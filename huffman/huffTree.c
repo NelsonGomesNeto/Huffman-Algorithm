@@ -73,7 +73,6 @@ huffTree_t* createTreeFromFile(char pathFile[])
 {
   FILE *pFile;
   pFile = fopen(pathFile, "rb");
-
   if (pFile == NULL)
   {
     printf("We weren't able to find this file!\n");
@@ -85,14 +84,18 @@ huffTree_t* createTreeFromFile(char pathFile[])
     freq[i] = 0;
 
   unsigned char bytes;
-  long long int soma = 0;
+  long long int progress = 0; int atual = 0;
+  long long int *progressBar = createProgressBar(pFile);
   while (fscanf(pFile, "%c", &bytes) != EOF)
   {
-    freq[bytes] ++; soma ++; // contagem de char no lugar certo!
-  }
-  updateProgress(10);
+    freq[bytes] ++; // contagem de char no lugar certo!
+    if (progressBar[atual] == progress)
+      updateProgress("Creating Tree.........\0", atual ++);
 
-  if (soma == 0)
+    progress ++;
+  }
+
+  if (progress == 0)
   {
     printf("This file is too god-like, it's so damn compressed that it's better to leave the way it is\n");
     return(NULL);
@@ -100,19 +103,18 @@ huffTree_t* createTreeFromFile(char pathFile[])
 
   fclose(pFile);
 
-  list_t *list = listFromArray(freq);
-  updateProgress(15);
+  list_t *list = createListFromArray(freq);
 
   sortList(list);
-  updateProgress(20);
 
   //printList(list);
 
   //printf("Total de Bytes: %lld\n", soma);
 
   huffTree_t *compressedTree = createTreeFromList(list);
-  updateProgress(25);
 
+  free(progressBar);
+  destroyList(list);
   return(compressedTree);
 }
 
@@ -245,7 +247,6 @@ void createDictionary(huffTree_t *tree, bool dictionary[][256], int bitsQuantity
       frequency[tree->byte] = tree->frequency;
 			//dictionary[tree->byte][0] = byte >> (13 - depth);
       //printByte(dictionary[tree->byte][0], 13); printf(" %c\n", tree->byte);
-			//printf("[%c]", tree->byte);
 		}
 		else
 		{
@@ -283,8 +284,9 @@ int countTreeSize(huffTree_t *tree)
   return(sum);
 }
 
-void decompressBytes(FILE *pFile, FILE *newFile, huffTree_t *tree, int trashSize)
+void decompressBytes(FILE *pFile, FILE *newFile, huffTree_t *tree, int trashSize, long long int progressBar[])
 {
+  long long int progress = 0; int atual = 0;
   unsigned char stringToPrint[10], byte; int done = 0, i, j;
   huffTree_t *curr = tree, *save;
   while (fscanf(pFile, "%c", &byte) != EOF)
@@ -306,8 +308,11 @@ void decompressBytes(FILE *pFile, FILE *newFile, huffTree_t *tree, int trashSize
         curr = tree;
       }
     }
-    //printByte(byte); printf(" ");
-  } //printf("\n");
+    if (progressBar[atual] == progress)
+      updateProgress("Decompressing File....", atual ++);
+
+    progress ++;
+  }
 
   curr = save;
   for (i = 7, done = 0; i >= trashSize; i --)
@@ -326,6 +331,14 @@ void decompressBytes(FILE *pFile, FILE *newFile, huffTree_t *tree, int trashSize
 
   for (j = 0; j < done; j ++)
     fprintf(newFile, "%c", stringToPrint[j]);
+}
 
-  printf("\n");
+void destroyHuffTree(huffTree_t *tree)
+{
+  if (!isHuffTreeEmpty(tree))
+  {
+    destroyHuffTree(tree->left);
+    destroyHuffTree(tree->right);
+    free(tree);
+  }
 }

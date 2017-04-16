@@ -34,6 +34,8 @@ void createDictionary(huffTree_t *tree, bool dictionary[][256], int bitsQuantity
 int countTrashSize(int bitsQuantity[], long long int frequency[]);
 int countTreeSize(huffTree_t *tree);
 
-void decompressBytes(FILE *pFile, FILE *newFile, huffTree_t *tree, int trashSize);
+void decompressBytes(FILE *pFile, FILE *newFile, huffTree_t *tree, int trashSize, long long int progressBar[]);
+
+void destroyHuffTree(huffTree_t *tree);
 
 #endif //HUFFTREE_H

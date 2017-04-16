@@ -1,5 +1,4 @@
 #include "list.h"
-#include "huffTree.h"
 
 struct _list
 {
@@ -15,6 +14,23 @@ list_t* createList()
   temp->head = NULL;
   temp->tail = NULL;
   return(temp);
+}
+
+list_t* createListFromArray(long long int array[])
+{
+  list_t *list = createList();
+  int i;
+  for (i = 0; i < 256; i ++)
+  {
+    if (array[i] != 0)
+    {
+      huffTree_t *temp;
+      temp = createNode(i, array[i]);
+
+      addNode(list, temp);
+    }
+  }
+  return(list);
 }
 
 void sortList(list_t *list)
@@ -69,7 +85,7 @@ void addTreeSorted(list_t *list, void *newTree /*huffTree_t*/)
     if (getFrequency(curr) < getFrequency(temp))
     {
       setNext(curr, temp);
-      list->tail = temp; // Só isso que faltava! Hopeing it to be :/
+      list->tail = temp;
     }
     else if (prev != NULL)
     {
@@ -83,23 +99,6 @@ void addTreeSorted(list_t *list, void *newTree /*huffTree_t*/)
     }
   }
   list->size ++;
-}
-
-list_t* listFromArray(long long int array[])
-{
-  list_t *list = createList();
-  int i;
-  for (i = 0; i < 256; i ++)
-  {
-    if (array[i] != 0)
-    {
-      huffTree_t *temp;
-      temp = createNode(i, array[i]);
-
-      addNode(list, temp);
-    }
-  }
-  return(list);
 }
 
 void* createTreeFromList(list_t *list)
@@ -131,4 +130,17 @@ void printList(list_t *list)
     printNode(curr);
     curr = getNext(curr);
   }
+}
+
+void destroyList(list_t *list)
+{
+  huffTree_t *curr = list->head, *toRemove;
+  while (list->size > 1)
+  {
+    toRemove = curr;
+    curr = getNext(curr);
+    free(toRemove);
+    list->size --;
+  }
+  free(list);
 }
