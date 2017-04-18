@@ -7,10 +7,11 @@
 #endif
 #include <stdio.h>
 #include <stdlib.h>
+#include <stdbool.h>
 
 //And in the point you want to clear the screen:
 //....
-void updateProgress(char string[], double porcentage);
+void updateProgress(char string[], int porcentage, bool cleaning);
 //....
 long long int* createProgressBar(FILE *pFile);
 

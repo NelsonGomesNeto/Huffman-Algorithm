@@ -1,9 +1,9 @@
 #include "progressBar.h"
 
-void updateProgress(char string[], double porcentage)
+void updateProgress(char string[], int porcentage, bool cleaning)
 {
   printf("\r");
-  printf("%s%3d%% [", string, (int) porcentage);
+  printf("%s%3d%% [", string, porcentage);
 
   int x;
   int c = porcentage / 10;
@@ -12,7 +12,10 @@ void updateProgress(char string[], double porcentage)
   for (x=c; x<10; x++)
     printf(" ");
 
-  printf("]\n\033[F\033[J");
+  if (cleaning)
+    printf("]\n\033[F\033[J");
+  else
+    printf("]\n\n");
 }
 
 long long int* createProgressBar(FILE *pFile)

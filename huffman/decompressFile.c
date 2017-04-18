@@ -64,26 +64,29 @@ void multipleDecompress(char quantityString[], char pathFile[])
 {
   int quantity = atoi(quantityString);
 
-  if (quantity <= 0)
+  if (quantity <= 1)
     printf("Invalid quantity\n");
   else
   {
     int i;
     decompress(pathFile);
-    fixExtension2(pathFile);
-    printf("%s\n", pathFile);
-    printf("Decompressed once\n\n");
+    fixDecompressExtension(pathFile); // Volta para o arquivo descomprimido para .huff
+    updateProgress("Decompressed once.....", ((double) 1 / quantity) * 100, false);
 
     for (i = 0; i < quantity - 1; i ++)
     {
       decompress(pathFile);
       if (i < quantity - 2)
-        fixExtension2(pathFile);
+        fixDecompressExtension(pathFile);
 
       if (i == 0)
-        printf("Decompressed twice\n\n");
+        updateProgress("Decompressed twice....", ((double) 2 / quantity) * 100, false);
       else
-        printf("Decompressed %d times\n\n", i + 2);
+      {
+        char progressString[100];
+        sprintf(progressString, "Decompressed %d times..", i + 2);
+        updateProgress(progressString, ((double) (i + 2) / quantity) * 100, false);
+      }
     }
 
     printf("You've decompressed %d times\n", quantity);
@@ -106,11 +109,10 @@ char* createDecompressedFileName(char pathFile[])
   return(newFileName);
 }
 
-void fixExtension2(char pathFile[])
+void fixDecompressExtension(char pathFile[])
 {
   char *originalName = (char*) malloc(100 * sizeof(char));
   strcpy(originalName, pathFile);
-  printf("Ori: %s\n", originalName);
 
   int endOfName = strlen(pathFile);
   int i = endOfName, j;
@@ -123,28 +125,11 @@ void fixExtension2(char pathFile[])
   }
 
   pathFile[i + 1] = '\0';
-  printf("Path: %s\n", pathFile);
 
   if (strcmp(originalName, pathFile) != 0)
     remove(originalName);
 
-  if (rename(pathFile, originalName))
-    printf("Success\n");
+  rename(pathFile, originalName);
 
   strcpy(pathFile, originalName);
 }
-
-/*int endOfName = strlen(pathFile);
-int i = endOfName, j;
-j = 5; char dotHuff[6] = {'.', 'h', 'u', 'f', 'f', '\0'};
-while (i >= 0 && pathFile[i] == dotHuff[j])
-{
-  i --; j --;
-  if (j == -1)
-  j = 4;
-}
-char *originalName = (char*) malloc(100 * sizeof(char));
-strcpy(originalName, pathFile);
-//remove(pathFile);
-strcat(pathFile, ".huff");
-rename(originalName, pathFile);*/

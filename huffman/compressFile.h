@@ -22,6 +22,6 @@ void compressFile(char pathFile[], unsigned char *header, bool dictionary[][256]
 
 char* createCompressedFileName(char pathFile[]);
 
-void fixExtension(char pathFile[]);
+void fixCompressExtension(char pathFile[]);
 
 #endif //COMPRESSFILE_H

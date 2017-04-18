@@ -49,23 +49,27 @@ void compress(char pathFile[])
 void multipleCompress(char quantityString[], char pathFile[])
 {
   int quantity = atoi(quantityString);
-  
-  if (quantity <= 0)
+
+  if (quantity <= 1)
     printf("Invalid quantity\n");
   else
   {
     int i;
     compress(pathFile);
-    printf("Compressed once\n\n");
-    strcat(pathFile, ".huff");
+    updateProgress("Compressed once.......", ((double) 1 / quantity) * 100, false);
+    strcat(pathFile, ".huff"); // Para comprimir a primeira compressão
 
     for (i = 0; i < quantity - 1; i ++)
     {
       compress(pathFile);
       if (i == 0)
-        printf("Compressed twice\n\n");
+        updateProgress("Compressed twice.......", ((double) 2 / quantity) * 100, false);
       else
-        printf("Compressed %d times\n\n", i + 2);
+      {
+        char progressString[100];
+        sprintf(progressString, "Compressed %d times....", i + 2);
+        updateProgress(progressString, ((double) (i + 2) / quantity) * 100, false);
+      }
     }
 
     printf("You've compressed %d times\n", quantity);
@@ -102,7 +106,7 @@ void compressFile(char pathFile[], unsigned char *header, bool dictionary[][256]
       }
     }
     if (progressBar[atual] == progress)
-      updateProgress("Compressing File......\0", atual ++);
+      updateProgress("Compressing File......\0", atual ++, true);
 
     progress ++;
   }
@@ -113,7 +117,7 @@ void compressFile(char pathFile[], unsigned char *header, bool dictionary[][256]
   free(progressBar);
   fclose(newFile);
   fclose(pFile);
-  fixExtension(compressedFileName);
+  fixCompressExtension(compressedFileName);
   free(compressedFileName);
 }
 
@@ -135,7 +139,7 @@ char* createCompressedFileName(char pathFile[])
   return(newFileName);
 }
 
-void fixExtension(char pathFile[])
+void fixCompressExtension(char pathFile[])
 {
   char *originalName = (char*) malloc(100 * sizeof(char));
   strcpy(originalName, pathFile);
@@ -156,6 +160,5 @@ void fixExtension(char pathFile[])
   if (strcmp(originalName, pathFile) != 0)
     remove(pathFile);
 
-  if (rename(originalName, pathFile))
-    printf("Success\n");
+  rename(originalName, pathFile);
 }

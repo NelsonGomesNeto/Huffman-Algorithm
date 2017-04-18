@@ -90,7 +90,7 @@ huffTree_t* createTreeFromFile(char pathFile[])
   {
     freq[bytes] ++; // contagem de char no lugar certo!
     if (progressBar[atual] == progress)
-      updateProgress("Creating Tree.........\0", atual ++);
+      updateProgress("Creating Tree.........\0", atual ++, true);
 
     progress ++;
   }
@@ -309,7 +309,7 @@ void decompressBytes(FILE *pFile, FILE *newFile, huffTree_t *tree, int trashSize
       }
     }
     if (progressBar[atual] == progress)
-      updateProgress("Decompressing File....", atual ++);
+      updateProgress("Decompressing File....", atual ++, true);
 
     progress ++;
   }

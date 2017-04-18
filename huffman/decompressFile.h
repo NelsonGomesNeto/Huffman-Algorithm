@@ -18,6 +18,6 @@ void multipleDecompress(char quantityString[], char pathFile[]);
 
 char* createDecompressedFileName(char pathFile[]);
 
-void fixExtension2(char pathFile[]);
+void fixDecompressExtension(char pathFile[]);
 
 #endif //DECOMPRESSFILE_H
