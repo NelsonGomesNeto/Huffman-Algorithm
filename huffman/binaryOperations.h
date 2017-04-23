@@ -3,10 +3,34 @@
 #include <stdio.h>
 #include <stdbool.h>
 
+/*
+ * Function: setBit
+ * ----------------------------
+ *   byte: unsigned integer to set
+ *   i: position to set
+ *
+ *   returns: unsigned integer with i position setted
+ */
 unsigned int setBit(unsigned int byte, int i);
 
+/*
+ * Function: isBitiSet
+ * ----------------------------
+ *   byte: unsigned integer to check
+ *   i: integer position to check
+ *
+ *   returns: a boolean wheter i position in a unsigned int is setted or not
+ */
 bool isBitiSet(unsigned int byte, int i);
 
+/*
+ * Function: printByte
+ * ----------------------------
+ *   byte: unsigned integer to print
+ *   i: integer position to 
+ *
+ *   returns: nothing
+ */
 void printByte(unsigned int byte, int size);
 
 #endif //BINARYOPERATIONS_H
