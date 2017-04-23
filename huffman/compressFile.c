@@ -11,12 +11,38 @@ unsigned char* createHeader(int trashSize, int treeSize)
   return(bytes);
 }
 
-void compress(char pathFile[])
+long long int countFutureFileSize(int bitsQuantity[], long long int frequency[])
 {
+  int i; long long int fileSize = 0;
+	for(i = 0; i < 256; i ++)
+		if(frequency[i] != -1)
+			fileSize += (bitsQuantity[i] * frequency[i]);
+
+  return(fileSize / 8 == (double) fileSize / 8 ? fileSize / 8 : (fileSize / 8) + 1);
+}
+
+long long int getFileSize(char pathFile[])
+{
+  FILE *pFile = fopen(pathFile, "rb");
+  if (pFile == NULL)
+    return(false);
+
+  fseek(pFile, 0, SEEK_END);
+  long long int fileSize = ftell(pFile);
+  rewind(pFile);
+  fclose(pFile);
+
+  return(fileSize);
+}
+
+bool compress(char pathFile[], bool preventLoss)
+{
+  long long int fileSizeBefore = getFileSize(pathFile);
+
   printf("Creating Tree.........");
     huffTree_t *compressedTree = createTreeFromFile(pathFile);
     if (isHuffTreeEmpty(compressedTree))
-      return;
+      return(false);
   printf("Creating Tree......... Done\n");
   //printf("Compressed Tree:\n");
   //printf("PreOrder: "); printTreePreOrder(compressedTree); printf("\n");
@@ -35,33 +61,50 @@ void compress(char pathFile[])
     int trashSize = countTrashSize(bitsQuantity, frequency);
     int treeSize = countTreeSize(compressedTree);
     //printf("Trash Size: %d || Tree Size: %d\n", trashSize, treeSize);
+    long long int fileSizeAfter = 2 + treeSize + countFutureFileSize(bitsQuantity, frequency);
     unsigned char *header = createHeader(trashSize, treeSize);
   printf(" Done\n");
+
+  if (preventLoss)
+  {
+    printf("Calculating Size......");
+      if (fileSizeBefore < fileSizeAfter)
+      {
+        free(header);
+        destroyHuffTree(compressedTree);
+        printf(" It's not worth it!\n");
+        return(false);
+      }
+    printf(" Done\n");
+  }
 
   printf("Compressing File......");
     compressFile(pathFile, header, dictionary, bitsQuantity, compressedTree);
   printf("Compressing File...... Done\n");
+  printf("Compressed from %Ld to %Ld: %g%%\n", fileSizeBefore, fileSizeAfter, 100 - (100 * ((double) fileSizeAfter / fileSizeBefore)));
 
   free(header);
   destroyHuffTree(compressedTree);
+  return(true);
 }
 
 void multipleCompress(char quantityString[], char pathFile[])
 {
+  long long int fileSizeBefore = getFileSize(pathFile);
   int quantity = atoi(quantityString);
 
   if (quantity <= 1)
     printf("Invalid quantity\n");
   else
   {
-    int i;
-    compress(pathFile);
+    compress(pathFile, false);
     updateProgress("Compressed once.......", ((double) 1 / quantity) * 100, false);
     strcat(pathFile, ".huff"); // Para comprimir a primeira compressão
 
+    int i;
     for (i = 0; i < quantity - 1; i ++)
     {
-      compress(pathFile);
+      compress(pathFile, false);
       if (i == 0)
         updateProgress("Compressed twice.......", ((double) 2 / quantity) * 100, false);
       else
@@ -72,7 +115,35 @@ void multipleCompress(char quantityString[], char pathFile[])
       }
     }
 
+    long long int fileSizeAfter = getFileSize(pathFile);
+    printf("Compressed from %Ld to %Ld: %g%%\n", fileSizeBefore, fileSizeAfter, 100 - (100 * ((double) fileSizeAfter / fileSizeBefore)));
     printf("You've compressed %d times\n", quantity);
+  }
+}
+
+void maxCompress(char pathFile[])
+{
+  long long int fileSizeBefore = getFileSize(pathFile);
+
+  int compressions = 0;
+  if (compress(pathFile, true))
+  {
+    compressions ++;
+    strcat(pathFile, ".huff");
+    printf("\n");
+
+    while (compress(pathFile, true))
+    {
+      compressions ++;
+      printf("\n");
+    }
+  }
+  printf("Maximum compression reached, we needed %d compressions\n", compressions);
+  
+  if (compressions > 0)
+  {
+    long long int fileSizeAfter = getFileSize(pathFile);
+    printf("Compressed from %Ld to %Ld: %g%%\n", fileSizeBefore, fileSizeAfter, 100 - (100 * ((double) fileSizeAfter / fileSizeBefore)));
   }
 }
 
@@ -154,7 +225,7 @@ void fixCompressExtension(char pathFile[])
       j = 4;
   }
 
-  pathFile[i + 1] = '\0';
+  pathFile[i + (5 - j)] = '\0';
   strcat(pathFile, ".huff");
 
   if (strcmp(originalName, pathFile) != 0)

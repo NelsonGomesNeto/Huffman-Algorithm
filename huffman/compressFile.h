@@ -14,9 +14,15 @@
 // Returns the header in a size two array of unsigned char
 unsigned char* createHeader(int trashSize, int treeSize);
 
-void compress(char pathFile[]);
+long long int countFutureFileSize(int bitsQuantity[], long long int frequency[]);
+
+long long int getFileSize(char pathFile[]);
+
+bool compress(char pathFile[], bool preventLoss);
 
 void multipleCompress(char quantityString[], char pathFile[]);
+
+void maxCompress(char pathFile[]);
 
 void compressFile(char pathFile[], unsigned char *header, bool dictionary[][256], int bitsQuantity[], huffTree_t *tree);
 

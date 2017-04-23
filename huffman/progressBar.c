@@ -5,11 +5,12 @@ void updateProgress(char string[], int porcentage, bool cleaning)
   printf("\r");
   printf("%s%3d%% [", string, porcentage);
 
-  int x;
+  // Filling Progress Bar
   int c = porcentage / 10;
-  for (x=0; x<c; x++)
+  int i;
+  for (i = 0; i < c; i ++)
     printf("#");
-  for (x=c; x<10; x++)
+  for (i = c; i <10; i ++)
     printf(" ");
 
   if (cleaning)
@@ -23,6 +24,7 @@ long long int* createProgressBar(FILE *pFile)
   fseek(pFile, 0, SEEK_END);
   long double fileSize = ftell(pFile);
   rewind(pFile);
+
   long long int *porcentageBar = (long long int*) malloc(100 * sizeof(long long int)), fill;
   for (fill = 0; fill < 100; fill ++)
     porcentageBar[fill] = ((double) fill / 100) * fileSize;

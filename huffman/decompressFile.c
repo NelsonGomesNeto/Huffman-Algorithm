@@ -68,11 +68,11 @@ void multipleDecompress(char quantityString[], char pathFile[])
     printf("Invalid quantity\n");
   else
   {
-    int i;
     decompress(pathFile);
     fixDecompressExtension(pathFile); // Volta para o arquivo descomprimido para .huff
     updateProgress("Decompressed once.....", ((double) 1 / quantity) * 100, false);
 
+    int i;
     for (i = 0; i < quantity - 1; i ++)
     {
       decompress(pathFile);
@@ -123,7 +123,7 @@ void fixDecompressExtension(char pathFile[])
     if (j == -1)
       j = 4;
   }
-
+  
   pathFile[i + 1] = '\0';
 
   if (strcmp(originalName, pathFile) != 0)
