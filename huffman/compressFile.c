@@ -139,7 +139,7 @@ void maxCompress(char pathFile[])
     }
   }
   printf("Maximum compression reached, we needed %d compressions\n", compressions);
-  
+
   if (compressions > 0)
   {
     long long int fileSizeAfter = getFileSize(pathFile);

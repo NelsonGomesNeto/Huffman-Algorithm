@@ -19,15 +19,17 @@ unsigned int setBit(unsigned int byte, int i);
  *   byte: unsigned integer to check
  *   i: integer position to check
  *
- *   returns: a boolean wheter i position in a unsigned int is setted or not
+ *   returns: boolean wheter i position in a unsigned int is setted or not
  */
 bool isBitiSet(unsigned int byte, int i);
 
 /*
  * Function: printByte
  * ----------------------------
+ *   Bit a bit prints a unsigned integer of a given size
+ *
  *   byte: unsigned integer to print
- *   i: integer position to 
+ *   size: size to print
  *
  *   returns: nothing
  */

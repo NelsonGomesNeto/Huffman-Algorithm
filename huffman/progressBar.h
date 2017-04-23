@@ -9,10 +9,26 @@
 #include <stdlib.h>
 #include <stdbool.h>
 
-//And in the point you want to clear the screen:
-//....
+/*
+ * Function: updateProgress
+ * ----------------------------
+ *   Updates the progress of a progess bar
+ *
+ *   string: char array (string) of wanted information about the progress bar
+ *   porcentage: integer of the porcentage progress
+ *   cleaning: boolean wheter you will keep refreshing it or it's just to print the progress
+ *
+ *   returns: nothing
+ */
 void updateProgress(char string[], int porcentage, bool cleaning);
-//....
+
+/*
+ * Function: createProgressBar
+ * ----------------------------
+ *   pFile: FILE* of the file to create a progress bar from
+ *
+ *   returns: long long int* of a size 100 array where each position is a the porcentage equivalent position inside the file
+ */
 long long int* createProgressBar(FILE *pFile);
 
 #endif //PROGRESSBAR_H

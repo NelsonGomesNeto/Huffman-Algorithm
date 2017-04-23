@@ -106,10 +106,7 @@ huffTree_t* createTreeFromFile(char pathFile[])
   list_t *list = createListFromArray(freq);
 
   sortList(list);
-
   //printList(list);
-
-  //printf("Total de Bytes: %lld\n", soma);
 
   huffTree_t *compressedTree = createTreeFromList(list);
 
