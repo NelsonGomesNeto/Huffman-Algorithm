@@ -9,11 +9,11 @@ int main()
   while (scanf("%d %d", &ini, &fim) != EOF)
     addEdge(graph, ini, fim);
 
-  printGraph(graph);
+  //printGraph(graph);
+  //printf("\nDFS:\n"); dfs(graph, 1);
 
-  printf("\nDFS:\n"); dfs(graph, 1);
-
-  printf("\nTopological Sort:\n"); topologicalSort(graph);
+  printf("\nTopological Sort with DFS:\n"); topologicalSortDFS(graph);
+  printf("\nTopological Sort with BFS:\n"); topologicalSortBFS(graph);
 
   destroyGraph(graph);
   return(0);

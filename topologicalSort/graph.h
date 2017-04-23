@@ -15,8 +15,8 @@ adjList_t* newAdjList(int vertex);
 void addEdge(graph_t *graph, int startVertex, int endVertex);
 
 void dfs(graph_t *graph, int source);
-void topologicalSort(graph_t *graph);
-//void bfs(graph_t* graph, int source);
+void topologicalSortDFS(graph_t *graph);
+void topologicalSortBFS(graph_t *graph); // aka Kahn's algorithm
 
 void printGraph(graph_t *graph);
 

@@ -1,5 +1,6 @@
 #include "graph.h"
 #include "stack.h"
+#include "queue.h"
 
 struct _graph
 {
@@ -94,7 +95,7 @@ void sub_topologicalSort(graph_t *graph, int i, stack_t *stack)
   push(stack, i);
 }
 
-void topologicalSort(graph_t *graph)
+void topologicalSortDFS(graph_t *graph)
 {
   stack_t *stack = newStack();
 
@@ -105,11 +106,70 @@ void topologicalSort(graph_t *graph)
     if (!graph->visited[i])
       sub_topologicalSort(graph, i, stack);
 
-  while (!isEmpty(stack))
+  while (!isStackEmpty(stack))
   {
     printf("%d\n", peek(stack));
     pop(stack);
   }
+
+  destroyStack(stack);
+}
+
+void topologicalSortBFS(graph_t *graph)
+{
+  int inDegree[graph->size], i;
+  for (i = 0; i < graph->size; i ++)
+    inDegree[i] = 0;
+
+  for (i = 0; i < graph->size; i ++)
+  {
+    adjList_t *curr = graph->vertices[i];
+    while (curr != NULL)
+    {
+      inDegree[curr->item] ++;
+      curr = curr->next;
+    }
+  }
+
+  queue_t *queue = newQueue();
+  for (i = 0; i < graph->size; i ++)
+    if (inDegree[i] == 0)
+      enqueue(queue, i);
+
+  int counter = 0;
+  queue_t *answer = newQueue();
+
+  while (!isQueueEmpty(queue))
+  {
+    int current = front(queue);
+    dequeue(queue);
+    enqueue(answer, current);
+
+    adjList_t *curr = graph->vertices[current];
+    while (curr != NULL)
+    {
+      if (-- inDegree[curr->item] == 0)
+        enqueue(queue, curr->item);
+
+      curr = curr->next;
+    }
+
+    counter ++;
+  }
+
+  if (counter != graph->size)
+  {
+    printf("The graph isn't a DAG!\n");
+    return;
+  }
+
+  while (!isQueueEmpty(answer))
+  {
+    printf("%d\n", front(answer));
+    dequeue(answer);
+  }
+  destroyQueue(queue);
+  destroyQueue(answer);
 }
 
 void printGraph(graph_t *graph)
