@@ -19,7 +19,7 @@ unsigned int setBit(unsigned int byte, int i);
  *   byte: unsigned integer to check
  *   i: integer position to check
  *
- *   returns: boolean wheter i position in a unsigned int is setted or not
+ *   returns: boolean whether i position in a unsigned int is setted or not
  */
 bool isBitiSet(unsigned int byte, int i);
 
