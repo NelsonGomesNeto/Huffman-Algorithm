@@ -1,4 +1,4 @@
-gcc *.c -o main
+gcc CPmain.c heap.c priorityQueue.c graphPrepare.c -o main
 time ./main
 
 Rscript rPlotDequeue.R
