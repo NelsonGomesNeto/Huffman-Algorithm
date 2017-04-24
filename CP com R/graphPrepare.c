@@ -32,9 +32,9 @@ void generateGraph(int size, int precision)
   srand(time(NULL));
 
   FILE *enqueuePriorityQueueFile = fopen("rPlotEnqueuePriorityQueue.R", "wb"); // Arquivo do plot
-  fprintf(enqueuePriorityQueueFile, "pdf(\"R-EnqueuePriorityQueuePlots.pdf\")\n");
+  fprintf(enqueuePriorityQueueFile, "pdf(\"R-EnqueuePriorityQueue.pdf\")\n");
   FILE *dequeuePriorityQueueFile = fopen("rPlotDequeuePriorityQueue.R", "wb"); // Arquivo do plot
-  fprintf(dequeuePriorityQueueFile, "pdf(\"R-DequeuePriorityQueuePlots.pdf\")\n");
+  fprintf(dequeuePriorityQueueFile, "pdf(\"R-DequeuePriorityQueue.pdf\")\n");
 
   FILE *enqueueHeapFile = fopen("rPlotEnqueueHeap.R", "wb"); // Arquivo do plot
   fprintf(enqueueHeapFile, "pdf(\"R-EnqueueHeap.pdf\")\n");
