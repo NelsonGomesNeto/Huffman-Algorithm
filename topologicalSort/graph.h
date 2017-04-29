@@ -5,6 +5,8 @@
 #include <stdbool.h>
 #include <string.h>
 #include <limits.h>
+#include "stack.h"
+#include "queue.h"
 
 /*
  * typedef of a graph struct: graph_t
