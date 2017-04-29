@@ -4,16 +4,16 @@
 #include <string.h>
 #include <limits.h>
 
-typedef struct queue_t queue_t;
-typedef struct nodeQueue_t nodeQueue_t;
+typedef struct _Queue Queue_t;
+typedef struct _NodeQueue NodeQueue_t;
 
-queue_t* newQueue();
-nodeQueue_t* newNodeQueue(int value);
+Queue_t* newQueue();
+NodeQueue_t* newNodeQueue(int value);
 
-bool isQueueEmpty(queue_t* queue);
+bool isQueueEmpty(Queue_t* queue);
 
-int front(queue_t* queue);
-void enqueue(queue_t* queue, int value);
+int front(Queue_t* queue);
+void enqueue(Queue_t* queue, int value);
 
-void dequeue(queue_t* queue);
-void destroyQueue(queue_t* queue);
+void dequeue(Queue_t* queue);
+void destroyQueue(Queue_t* queue);

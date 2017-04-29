@@ -3,7 +3,7 @@
 int main()
 {
   int size; scanf("%d", &size);
-  graph_t *graph = createGraph(size);
+  Graph_t *graph = createGraph(size);
 
   int ini, fim;
   while (scanf("%d %d", &ini, &fim) != EOF)

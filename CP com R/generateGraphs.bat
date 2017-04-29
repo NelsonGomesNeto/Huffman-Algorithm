@@ -8,9 +8,9 @@ rPlotEnqueuePriorityQueue.R
 rPlotDequeue.R
 rPlotEnqueue.R
 
-R-DequeueHeap.pdf
-R-DequeuePriorityQueuePlots.pdf
-R-EnqueueHeap.pdf
-R-EnqueuePriorityQueuePlots.pdf
 R-Dequeue.pdf
+R-DequeueHeap.pdf
+R-DequeuePriorityQueue.pdf
 R-Enqueue.pdf
+R-EnqueueHeap.pdf
+R-EnqueuePriorityQueue.pdf

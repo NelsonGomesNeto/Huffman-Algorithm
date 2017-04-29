@@ -7,21 +7,21 @@
 #include <limits.h>
 #include <time.h>
 
-typedef struct priorityQueue_t priorityQueue_t;
-typedef struct node_t node_t;
+typedef struct _PriorityQueue PriorityQueue_t;
+typedef struct _Node Node_t;
 
-priorityQueue_t* newPriorityQueue();
-node_t* newNode(int value, int priority);
+PriorityQueue_t* newPriorityQueue();
+Node_t* newNode(int value, int priority);
 
-bool isPriorityQueueEmpty(priorityQueue_t *pq);
+bool isPriorityQueueEmpty(PriorityQueue_t *pq);
 
-node_t* front(priorityQueue_t *pq);
-int maximum(priorityQueue_t *pq);
-void printPriorityQueue(priorityQueue_t *pq, char mode);
-int enqueuePriorityQueue(priorityQueue_t *pq, int value, int priority);
+Node_t* front(PriorityQueue_t *pq);
+int maximum(PriorityQueue_t *pq);
+void printPriorityQueue(PriorityQueue_t *pq, char mode);
+int enqueuePriorityQueue(PriorityQueue_t *pq, int value, int priority);
 
-int dequeuePriorityQueue(priorityQueue_t *pq);
-void destroyPriorityQueue(priorityQueue_t *pq);
+int dequeuePriorityQueue(PriorityQueue_t *pq);
+void destroyPriorityQueue(PriorityQueue_t *pq);
 
 void generateGraphPriorityQueue(int size, int precision);
 

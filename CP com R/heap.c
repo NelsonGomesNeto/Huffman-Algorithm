@@ -1,6 +1,6 @@
 #include "heap.h"
 
-struct _heap
+struct _Heap
 {
   int size;
   int capacity;
@@ -8,9 +8,9 @@ struct _heap
   int *data;
 };
 
-heap_t* createHeap(int capacity, char heapType)
+Heap_t* createHeap(int capacity, char heapType)
 {
-  heap_t *temp = (heap_t*) malloc(1 * sizeof(heap_t));
+  Heap_t *temp = (Heap_t*) malloc(1 * sizeof(Heap_t));
   temp->size = 0;
   temp->capacity = capacity;
   temp->heapType = heapType;
@@ -33,7 +33,7 @@ bool compareHeapWithType(int a, int b, char heapType)
     return(a < b);
 }
 
-int enqueueHeap(heap_t *heap, int item)
+int enqueueHeap(Heap_t *heap, int item)
 {
   int compares = 1;
   if (heap->size >= heap->capacity)
@@ -56,7 +56,7 @@ int enqueueHeap(heap_t *heap, int item)
   return(compares);
 }
 
-int dequeueHeap(heap_t *heap)
+int dequeueHeap(Heap_t *heap)
 {
   int compares = 1;
   if (isHeapEmpty(heap))
@@ -76,34 +76,34 @@ int dequeueHeap(heap_t *heap)
   }
 }
 
-int getParentIndex(heap_t *heap, int i)
+int getParentIndex(Heap_t *heap, int i)
 {
   return(i >> 1); // Dividido por 2
 }
 
-int getLeftIndex(heap_t *heap, int i)
+int getLeftIndex(Heap_t *heap, int i)
 {
   return(i << 1); // Multiplicado por 2
 }
 
-int getRightIndex(heap_t *heap, int i)
+int getRightIndex(Heap_t *heap, int i)
 {
   return((i << 1) + 1); // Multiplicado por 2 e added 1
 }
 
-int frontHeap(heap_t *heap)
+int frontHeap(Heap_t *heap)
 {
   if (isHeapEmpty(heap)) return(INT_MIN);
 
   return(heap->data[1]);
 }
 
-bool isHeapEmpty(heap_t *heap)
+bool isHeapEmpty(Heap_t *heap)
 {
   return(!heap->size);
 }
 
-void heapify(heap_t *heap, int i, int *compares)
+void heapify(Heap_t *heap, int i, int *compares)
 {
   (*compares) ++;
 
@@ -126,12 +126,12 @@ void heapify(heap_t *heap, int i, int *compares)
   }
 }
 
-int itemOf(heap_t *heap, int i)
+int itemOf(Heap_t *heap, int i)
 {
   return(heap->data[i]);
 }
 
-void heapSort(heap_t *heap)
+void heapSort(Heap_t *heap)
 {
   int i, trash = 0;
   for (i = heap->size; i >= 2; i --)
@@ -143,7 +143,7 @@ void heapSort(heap_t *heap)
   }
 }
 
-void destroyHeap(heap_t *heap)
+void destroyHeap(Heap_t *heap)
 {
   free(heap->data);
   free(heap);

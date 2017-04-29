@@ -40,12 +40,10 @@ bool compress(char pathFile[], bool preventLoss)
   long long int fileSizeBefore = getFileSize(pathFile);
 
   printf("Creating Tree.........");
-    huffTree_t *compressedTree = createTreeFromFile(pathFile);
+    HuffTree_t *compressedTree = createTreeFromFile(pathFile);
     if (isHuffTreeEmpty(compressedTree))
       return(false);
   printf("Creating Tree......... Done\n");
-  //printf("Compressed Tree:\n");
-  //printf("PreOrder: "); printTreePreOrder(compressedTree); printf("\n");
 
   printf("Creating Dictionary...");
     bool dictionary[256][256]; int bitsQuantity[256];
@@ -147,7 +145,7 @@ void maxCompress(char pathFile[])
   }
 }
 
-void compressFile(char pathFile[], unsigned char *header, bool dictionary[][256], int bitsQuantity[], huffTree_t *tree)
+void compressFile(char pathFile[], unsigned char *header, bool dictionary[][256], int bitsQuantity[], HuffTree_t *tree)
 {
   FILE *pFile = fopen(pathFile, "rb");
   long long int *progressBar = createProgressBar(pFile);

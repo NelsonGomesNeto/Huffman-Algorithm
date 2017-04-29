@@ -1,30 +1,30 @@
 #include "list.h"
 
-struct _list
+struct _List
 {
   int size;
-  huffTree_t *head;
-  huffTree_t *tail;
+  HuffTree_t *head;
+  HuffTree_t *tail;
 };
 
-list_t* createList()
+List_t* createList()
 {
-  list_t *temp = (list_t*) malloc(1 * sizeof(list_t));
+  List_t *temp = (List_t*) malloc(1 * sizeof(List_t));
   temp->size = 0;
   temp->head = NULL;
   temp->tail = NULL;
   return(temp);
 }
 
-list_t* createListFromArray(long long int array[])
+List_t* createListFromArray(long long int array[])
 {
-  list_t *list = createList();
+  List_t *list = createList();
   int i;
   for (i = 0; i < 256; i ++)
   {
     if (array[i] != 0)
     {
-      huffTree_t *temp;
+      HuffTree_t *temp;
       temp = createNode(i, array[i]);
 
       addNode(list, temp);
@@ -33,11 +33,11 @@ list_t* createListFromArray(long long int array[])
   return(list);
 }
 
-void sortList(list_t *list)
+void sortList(List_t *list)
 {
   if (list->size <= 1) return;
 
-  huffTree_t *o = list->head, *b;
+  HuffTree_t *o = list->head, *b;
   while (o != NULL)
   {
     b = getNext(o);
@@ -52,7 +52,7 @@ void sortList(list_t *list)
   }
 }
 
-void addNode(list_t *list, void *newNode /*huffTree_t*/)
+void addNode(List_t *list, void *newNode /*HuffTree_t*/)
 {
   if (list->size == 0)
   {
@@ -67,16 +67,16 @@ void addNode(list_t *list, void *newNode /*huffTree_t*/)
   list->size ++;
 }
 
-void addTreeSorted(list_t *list, void *newTree /*huffTree_t*/)
+void addTreeSorted(List_t *list, void *newTree /*HuffTree_t*/)
 {
-  huffTree_t *temp = (huffTree_t*) newTree;
+  HuffTree_t *temp = (HuffTree_t*) newTree;
   if (list->size == 0)
   {
     list->head = temp; list->tail = temp;
   }
   else
   {
-    huffTree_t *curr = list->head, *prev = NULL;
+    HuffTree_t *curr = list->head, *prev = NULL;
     while (getNext(curr) != NULL && getFrequency(curr) < getFrequency(temp))
     {
       prev = curr;
@@ -101,16 +101,16 @@ void addTreeSorted(list_t *list, void *newTree /*huffTree_t*/)
   list->size ++;
 }
 
-void* createTreeFromList(list_t *list)
+void* createTreeFromList(List_t *list)
 {
-  huffTree_t *curr = list->head;
+  HuffTree_t *curr = list->head;
   do
   {
     int somaDeFrequencias = getFrequency(curr) + getFrequency(getNext(curr));
 
     list->head = getNext(getNext(curr));
 
-    huffTree_t *newTree = createTree('*', somaDeFrequencias, curr, getNext(curr));
+    HuffTree_t *newTree = createTree('*', somaDeFrequencias, curr, getNext(curr));
 
     addTreeSorted(list, newTree);
 
@@ -122,9 +122,9 @@ void* createTreeFromList(list_t *list)
   return(list->head);
 }
 
-void printList(list_t *list)
+void printList(List_t *list)
 {
-  huffTree_t *curr = list->head;
+  HuffTree_t *curr = list->head;
   while (!isHuffTreeEmpty(curr))
   {
     printNode(curr);
@@ -132,9 +132,9 @@ void printList(list_t *list)
   }
 }
 
-void destroyList(list_t *list)
+void destroyList(List_t *list)
 {
-  huffTree_t *curr = list->head, *toRemove;
+  HuffTree_t *curr = list->head, *toRemove;
   while (list->size > 1)
   {
     toRemove = curr;

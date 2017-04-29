@@ -40,7 +40,7 @@ void test_enqueueHeap(void)
   int nums[4][10] = {7, 3, 2, 1, 5, 6, 9, 4, 8, 10, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 10, 9, 8, 7, 6, 5, 4, 3, 2, 1, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5};
   int expected[4][10] = {7, 7, 7, 7, 7, 7, 9, 9, 9, 10, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 10, 10, 10, 10, 10, 10, 10, 10, 10, 10, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5};
 
-  heap_t *heap = createHeap(10, '+');
+  Heap_t *heap = createHeap(10, '+');
   for (i = 0; i < 10; i ++)
   {
     enqueueHeap(heap, nums[0][i]);
@@ -79,7 +79,7 @@ void test_enqueuePriorityQueue(void)
   int nums[4][10] = {7, 3, 2, 1, 5, 6, 9, 4, 8, 10, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 10, 9, 8, 7, 6, 5, 4, 3, 2, 1, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5};
   int expected[4][10] = {7, 7, 7, 7, 7, 7, 9, 9, 9, 10, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 10, 10, 10, 10, 10, 10, 10, 10, 10, 10, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5};
 
-  priorityQueue_t *pq = newPriorityQueue();
+  PriorityQueue_t *pq = newPriorityQueue();
   for (i = 0; i < 10; i ++)
   {
     enqueuePriorityQueue(pq, nums[0][i], nums[0][i]);
@@ -118,7 +118,7 @@ void test_dequeueHeap(void)
   int nums[4][10] = {7, 3, 2, 1, 5, 6, 9, 4, 8, 10, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 10, 9, 8, 7, 6, 5, 4, 3, 2, 1, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5};
   int expected[4][10] = {10, 9, 8, 7, 6, 5, 4, 3, 2, 1, 10, 9, 8, 7, 6, 5, 4, 3, 2, 1, 10, 9, 8, 7, 6, 5, 4, 3, 2, 1, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5};
 
-  heap_t *heap = createHeap(10, '+');
+  Heap_t *heap = createHeap(10, '+');
   for (i = 0; i < 10; i ++)
     enqueueHeap(heap, nums[0][i]);
   for (i = 0; i < 10; i ++)
@@ -165,7 +165,7 @@ void test_dequeuePriorityQueue(void)
   int nums[4][10] = {7, 3, 2, 1, 5, 6, 9, 4, 8, 10, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 10, 9, 8, 7, 6, 5, 4, 3, 2, 1, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5};
   int expected[4][10] = {10, 9, 8, 7, 6, 5, 4, 3, 2, 1, 10, 9, 8, 7, 6, 5, 4, 3, 2, 1, 10, 9, 8, 7, 6, 5, 4, 3, 2, 1, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5};
 
-  priorityQueue_t *pq = newPriorityQueue();
+  PriorityQueue_t *pq = newPriorityQueue();
   for (i = 0; i < 10; i ++)
     enqueuePriorityQueue(pq, nums[0][i], nums[0][i]);
   for (i = 0; i < 10; i ++)

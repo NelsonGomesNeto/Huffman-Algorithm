@@ -1,46 +1,46 @@
 #include "queue.h"
 
-struct queue_t
+struct _Queue
 {
-  nodeQueue_t *head;
-  nodeQueue_t *tail;
+  NodeQueue_t *head;
+  NodeQueue_t *tail;
 };
 
-struct nodeQueue_t
+struct _NodeQueue
 {
   int value;
-  nodeQueue_t *next;
+  NodeQueue_t *next;
 };
 
-queue_t* newQueue()
+Queue_t* newQueue()
 {
-  queue_t *temp = malloc(1 * sizeof(queue_t));
+  Queue_t *temp = malloc(1 * sizeof(Queue_t));
   temp->head = NULL;
   temp->tail = NULL;
   return(temp);
 }
 
-nodeQueue_t* newNodeQueue(int value)
+NodeQueue_t* newNodeQueue(int value)
 {
-  nodeQueue_t *temp = malloc(1 * sizeof(nodeQueue_t));
+  NodeQueue_t *temp = malloc(1 * sizeof(NodeQueue_t));
   temp->value = value;
   temp->next = NULL;
   return(temp);
 }
 
-bool isQueueEmpty(queue_t* queue)
+bool isQueueEmpty(Queue_t* queue)
 {
   return(queue->head == NULL);
 }
 
-int front(queue_t* queue)
+int front(Queue_t* queue)
 {
   return(queue->head->value);
 }
 
-void enqueue(queue_t* queue, int value)
+void enqueue(Queue_t* queue, int value)
 {
-  nodeQueue_t *temp = newNodeQueue(value);
+  NodeQueue_t *temp = newNodeQueue(value);
   if (isQueueEmpty(queue))
   {
     queue->head = temp;
@@ -53,15 +53,15 @@ void enqueue(queue_t* queue, int value)
   }
 }
 
-void dequeue(queue_t* queue)
+void dequeue(Queue_t* queue)
 {
   if (isQueueEmpty(queue)) return;
-  nodeQueue_t *temp = queue->head;
+  NodeQueue_t *temp = queue->head;
   queue->head = queue->head->next;
   free(temp);
 }
 
-void destroyQueue(queue_t* queue)
+void destroyQueue(Queue_t* queue)
 {
   while (!isQueueEmpty(queue))
     dequeue(queue);

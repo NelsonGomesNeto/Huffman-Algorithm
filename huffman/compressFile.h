@@ -83,11 +83,11 @@ void maxCompress(char pathFile[]);
  *   header: unsigned char* of the header
  *   dictionary: boolean bidimensional array of the representation of a char (byte) in the file to compress
  *   bitsQuantity: integer array with how many bits are needed to represent a char in the file to compress
- *   tree: huffTree_t* tree of the representation of a char in the file to compress
+ *   tree: HuffTree_t* tree of the representation of a char in the file to compress
  *
  *   returns: nothing
  */
-void compressFile(char pathFile[], unsigned char *header, bool dictionary[][256], int bitsQuantity[], huffTree_t *tree);
+void compressFile(char pathFile[], unsigned char *header, bool dictionary[][256], int bitsQuantity[], HuffTree_t *tree);
 
 /*
  * Function: createCompressedFileName

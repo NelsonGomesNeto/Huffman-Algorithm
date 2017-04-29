@@ -43,7 +43,12 @@ void decompress(char pathFile[])
 
   //printf("Decompressed Tree:\n");
   int i = 0;
-  huffTree_t *decompressedTree = NULL; createTreeFromPreFix(pFile, &decompressedTree, treeSize, &i);
+  HuffTree_t *decompressedTree = NULL; createTreeFromPreFix(pFile, &decompressedTree, treeSize, &i);
+  if (isHuffTreeEmpty(decompressedTree))
+  {
+    printf("We weren't able to read the tree properly\n");
+    return;
+  }
   //printf("PreOrder: "); printTreePreOrder(decompressedTree); printf("\n");
   //printf("InOrder: "); printTreeInOrder(decompressedTree); printf("\n");
   //printf("PosOrder: "); printTreePosOrder(decompressedTree); printf("\n");
@@ -123,7 +128,7 @@ void fixDecompressExtension(char pathFile[])
     if (j == -1)
       j = 4;
   }
-  
+
   pathFile[i + 1] = '\0';
 
   if (strcmp(originalName, pathFile) != 0)

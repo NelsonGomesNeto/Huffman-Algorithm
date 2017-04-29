@@ -27,8 +27,8 @@ void putRcomands(FILE *pFile, char title[], bool withLimits, int xlim[], int yli
 
 void generateGraph(int size, int precision)
 {
-  priorityQueue_t *pq = newPriorityQueue();
-  heap_t *heap = createHeap(size, '+');
+  PriorityQueue_t *pq = newPriorityQueue();
+  Heap_t *heap = createHeap(size, '+');
   srand(time(NULL));
 
   FILE *enqueuePriorityQueueFile = fopen("rPlotEnqueuePriorityQueue.R", "wb"); // Arquivo do plot

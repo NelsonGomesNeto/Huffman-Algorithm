@@ -1,23 +1,23 @@
 #include "graph.h"
 
-struct _graph
+struct _Graph
 {
   int size;
-  adjList_t **vertices;
+  AdjList_t **vertices;
   bool *visited;
 };
 
-struct _adjList
+struct _AdjList
 {
   int item;
-  adjList_t *next;
+  AdjList_t *next;
 };
 
-graph_t* createGraph(int quantityNodes)
+Graph_t* createGraph(int quantityNodes)
 {
-  graph_t *temp = (graph_t*) malloc(1 * sizeof(graph_t));
+  Graph_t *temp = (Graph_t*) malloc(1 * sizeof(Graph_t));
   temp->size = quantityNodes;
-  temp->vertices = (adjList_t**) malloc(quantityNodes * sizeof(adjList_t*));
+  temp->vertices = (AdjList_t**) malloc(quantityNodes * sizeof(AdjList_t*));
   temp->visited = (bool*) malloc(quantityNodes * sizeof(bool));
   int i;
   for (i = 0; i < quantityNodes; i ++)
@@ -28,24 +28,24 @@ graph_t* createGraph(int quantityNodes)
   return(temp);
 }
 
-adjList_t* newAdjList(int vertex)
+AdjList_t* newAdjList(int vertex)
 {
-  adjList_t *temp = (adjList_t*) malloc(1 * sizeof(adjList_t));
+  AdjList_t *temp = (AdjList_t*) malloc(1 * sizeof(AdjList_t));
   temp->item = vertex;
   temp->next = NULL;
   return(temp);
 }
 
-void cleanVisits(graph_t *graph)
+void cleanVisits(Graph_t *graph)
 {
   int i;
   for (i = 0; i < graph->size; i ++)
     graph->visited[i] = false;
 }
 
-void addEdge(graph_t *graph, int startVertex, int endVertex)
+void addEdge(Graph_t *graph, int startVertex, int endVertex)
 {
-  adjList_t *vertex = newAdjList(endVertex);
+  AdjList_t *vertex = newAdjList(endVertex);
   vertex->next = graph->vertices[startVertex];
   graph->vertices[startVertex] = vertex;
 
@@ -55,12 +55,12 @@ void addEdge(graph_t *graph, int startVertex, int endVertex)
   graph->vertices[endVertex] = vertex;*/
 }
 
-void sub_dfs(graph_t *graph, int source)
+void sub_dfs(Graph_t *graph, int source)
 {
   graph->visited[source] = true;
   printf("%d\n", source);
 
-  adjList_t *curr = graph->vertices[source];
+  AdjList_t *curr = graph->vertices[source];
 
   while (curr != NULL)
   {
@@ -71,17 +71,17 @@ void sub_dfs(graph_t *graph, int source)
   }
 }
 
-void dfs(graph_t *graph, int source)
+void dfs(Graph_t *graph, int source)
 {
   cleanVisits(graph);
   sub_dfs(graph, source);
 }
 
-void sub_topologicalSort(graph_t *graph, int i, stack_t *stack)
+void sub_topologicalSort(Graph_t *graph, int i, Stack_t *stack)
 {
   graph->visited[i] = true;
 
-  adjList_t *curr = graph->vertices[i];
+  AdjList_t *curr = graph->vertices[i];
   while (curr != NULL)
   {
     if (!graph->visited[curr->item])
@@ -93,9 +93,9 @@ void sub_topologicalSort(graph_t *graph, int i, stack_t *stack)
   push(stack, i);
 }
 
-void topologicalSortDFS(graph_t *graph)
+void topologicalSortDFS(Graph_t *graph)
 {
-  stack_t *stack = newStack();
+  Stack_t *stack = newStack();
 
   cleanVisits(graph);
 
@@ -113,7 +113,7 @@ void topologicalSortDFS(graph_t *graph)
   destroyStack(stack);
 }
 
-void topologicalSortBFS(graph_t *graph)
+void topologicalSortBFS(Graph_t *graph)
 {
   int inDegree[graph->size], i;
   for (i = 0; i < graph->size; i ++)
@@ -121,7 +121,7 @@ void topologicalSortBFS(graph_t *graph)
 
   for (i = 0; i < graph->size; i ++)
   {
-    adjList_t *curr = graph->vertices[i];
+    AdjList_t *curr = graph->vertices[i];
     while (curr != NULL)
     {
       inDegree[curr->item] ++;
@@ -129,13 +129,13 @@ void topologicalSortBFS(graph_t *graph)
     }
   }
 
-  queue_t *queue = newQueue();
+  Queue_t *queue = newQueue();
   for (i = 0; i < graph->size; i ++)
     if (inDegree[i] == 0)
       enqueue(queue, i);
 
   int counter = 0;
-  queue_t *answer = newQueue();
+  Queue_t *answer = newQueue();
 
   while (!isQueueEmpty(queue))
   {
@@ -143,7 +143,7 @@ void topologicalSortBFS(graph_t *graph)
     dequeue(queue);
     enqueue(answer, current);
 
-    adjList_t *curr = graph->vertices[current];
+    AdjList_t *curr = graph->vertices[current];
     while (curr != NULL)
     {
       if (-- inDegree[curr->item] == 0)
@@ -170,15 +170,16 @@ void topologicalSortBFS(graph_t *graph)
   destroyQueue(answer);
 }
 
-void printGraph(graph_t *graph)
+void printGraph(Graph_t *graph)
 {
   if (graph == NULL) return;
+
   printf("Graph (%d nodes):\n", graph->size);
   int i;
   for (i = 0; i < graph->size; i ++)
   {
     printf("%d ~>", i);
-    adjList_t *curr = graph->vertices[i];
+    AdjList_t *curr = graph->vertices[i];
     while (curr != NULL)
     {
       printf(" %d", curr->item);
@@ -187,12 +188,12 @@ void printGraph(graph_t *graph)
   }
 }
 
-void destroyGraph(graph_t *graph)
+void destroyGraph(Graph_t *graph)
 {
   int i;
   for (i = 0; i < graph->size; i ++)
   {
-    adjList_t *curr = graph->vertices[i];
+    AdjList_t *curr = graph->vertices[i];
     while (curr != NULL)
     {
       graph->vertices[i] = graph->vertices[i]->next;
