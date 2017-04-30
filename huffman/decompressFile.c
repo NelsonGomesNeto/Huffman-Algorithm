@@ -129,7 +129,7 @@ void fixDecompressExtension(char pathFile[])
       j = 4;
   }
 
-  pathFile[i + 1] = '\0';
+  pathFile[i + (5 - j)] = '\0';
 
   if (strcmp(originalName, pathFile) != 0)
     remove(originalName);
