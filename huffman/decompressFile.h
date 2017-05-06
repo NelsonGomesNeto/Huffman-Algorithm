@@ -43,6 +43,21 @@ void decompress(char pathFile[]);
 void multipleDecompress(char quantityString[], char pathFile[]);
 
 /*
+ * Function: decompressBytes
+ * ----------------------------
+ *   Descompresses the chars (bytes) of a compressed file to form a new file
+ *
+ *   pFile: FILE* to be read and extracted the compressed chars (bytes)
+ *   newFile: FILE* to print in the decompressed bytes
+ *   tree: HuffTree_t* huffman tree to know find correspondent char (byte)
+ *   trashSize: integer of the trash size
+ *   progressBar: long long integer of the progress bar
+ *
+ *   returns: nothing
+ */
+void decompressBytes(FILE *pFile, FILE *newFile, HuffTree_t *tree, int trashSize, long long int progressBar[]);
+
+/*
  * Function: createDecompressedFileName
  * ----------------------------
  *   pathFile: char array (string) with the file path

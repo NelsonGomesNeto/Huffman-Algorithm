@@ -24,7 +24,7 @@ List_t* createListFromArray(long long int array[])
   {
     if (array[i] != 0)
     {
-      HuffTree_t *temp;
+      void *temp;
       temp = createNode(i, array[i]);
 
       addNode(list, temp);
@@ -33,18 +33,39 @@ List_t* createListFromArray(long long int array[])
   return(list);
 }
 
+HuffTree_t* createTreeFromList(List_t *list)
+{
+  HuffTree_t *curr = list->head;
+  do
+  {
+    int somaDeFrequencias = getFrequency(curr) + getFrequency(getNext(curr));
+
+    list->head = getNext(getNext(curr));
+
+    HuffTree_t *newTree = createTree('*', somaDeFrequencias, curr, getNext(curr));
+
+    addTreeSorted(list, newTree);
+
+    curr = list->head;
+    list->size -= 2;
+  } while (list->size > 1);
+  list->head = list->tail;
+
+  return(list->head);
+}
+
 void sortList(List_t *list)
 {
   if (list->size <= 1) return;
 
-  HuffTree_t *o = list->head, *b;
+  void *o = list->head, *b;
   while (o != NULL)
   {
     b = getNext(o);
     while (b != NULL)
     {
       if (isMoreFrequent(o, b))
-        swap(o, b);
+        swapHuffTrees(o, b);
 
       b = getNext(b);
     }
@@ -52,7 +73,7 @@ void sortList(List_t *list)
   }
 }
 
-void addNode(List_t *list, void *newNode /*HuffTree_t*/)
+void addNode(List_t *list, HuffTree_t *newNode)
 {
   if (list->size == 0)
   {
@@ -67,9 +88,9 @@ void addNode(List_t *list, void *newNode /*HuffTree_t*/)
   list->size ++;
 }
 
-void addTreeSorted(List_t *list, void *newTree /*HuffTree_t*/)
+void addTreeSorted(List_t *list, HuffTree_t *newTree)
 {
-  HuffTree_t *temp = (HuffTree_t*) newTree;
+  HuffTree_t *temp = newTree;
   if (list->size == 0)
   {
     list->head = temp; list->tail = temp;
@@ -101,30 +122,9 @@ void addTreeSorted(List_t *list, void *newTree /*HuffTree_t*/)
   list->size ++;
 }
 
-void* createTreeFromList(List_t *list)
-{
-  HuffTree_t *curr = list->head;
-  do
-  {
-    int somaDeFrequencias = getFrequency(curr) + getFrequency(getNext(curr));
-
-    list->head = getNext(getNext(curr));
-
-    HuffTree_t *newTree = createTree('*', somaDeFrequencias, curr, getNext(curr));
-
-    addTreeSorted(list, newTree);
-
-    curr = list->head;
-    list->size -= 2;
-  } while (list->size > 1);
-  list->head = list->tail;
-
-  return(list->head);
-}
-
 void printList(List_t *list)
 {
-  HuffTree_t *curr = list->head;
+  void *curr = list->head;
   while (!isHuffTreeEmpty(curr))
   {
     printNode(curr);
@@ -134,7 +134,7 @@ void printList(List_t *list)
 
 void destroyList(List_t *list)
 {
-  HuffTree_t *curr = list->head, *toRemove;
+  void *curr = list->head, *toRemove;
   while (list->size > 1)
   {
     toRemove = curr;

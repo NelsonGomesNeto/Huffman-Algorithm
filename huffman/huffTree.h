@@ -5,6 +5,8 @@
 #include <stdbool.h>
 #include <string.h>
 #include <limits.h>
+#include "binaryOperations.h"
+#include "progressBar.h"
 
 /*
  * typedef of a huffman tree struct: HuffTree_t
@@ -47,6 +49,16 @@ HuffTree_t* createTree(unsigned char byte, long long int frequency, HuffTree_t *
  *   returns: nothing
  */
 void createTreeFromPreFix(FILE *pFile, HuffTree_t **newTree, int end, int *i);
+
+/*
+ * Function: createTreeFromFile
+ * ----------------------------
+ *   Creates a tree by analysing a file
+ *
+ *   pathFile: array of char (string) of the file path
+ *
+ *   returns: HuffTree_t* to a huffman tree
+ */
 HuffTree_t* createTreeFromFile(char pathFile[]);
 
 /*
@@ -59,15 +71,6 @@ HuffTree_t* createTreeFromFile(char pathFile[]);
 bool isHuffTreeEmpty(HuffTree_t *hm);
 
 /*
- * Function: height
- * ----------------------------
- *   hm: HuffTree_t* huffman tree
- *
- *   returns: integer of tree's height
- */
-int height(HuffTree_t *hm);
-
-/*
  * Function: isMoreFrequent
  * ----------------------------
  *   a: HuffTree_t* huffman tree to compare with tree b
@@ -78,7 +81,7 @@ int height(HuffTree_t *hm);
 bool isMoreFrequent(HuffTree_t *a, HuffTree_t *b);
 
 /*
- * Function: swap
+ * Function: swapHuffTrees
  * ----------------------------
  *   Swaps the content of tree a with tree b
  *
@@ -87,7 +90,43 @@ bool isMoreFrequent(HuffTree_t *a, HuffTree_t *b);
  *
  *   returns: nothing
  */
-void swap(HuffTree_t *a, HuffTree_t *b);
+void swapHuffTrees(HuffTree_t *a, HuffTree_t *b);
+
+/*
+ * Function: getLeft
+ * ----------------------------
+ *   atual: HuffTree_t* huffman tree to get the it's next tree
+ *
+ *   returns: HuffTree_t* of the left huffman tree
+ */
+HuffTree_t* getLeft(HuffTree_t *atual);
+
+/*
+ * Function: getRight
+ * ----------------------------
+ *   atual: HuffTree_t* huffman tree to get the it's next tree
+ *
+ *   returns: HuffTree_t* of the right huffman tree
+ */
+HuffTree_t* getRight(HuffTree_t *atual);
+
+/*
+ * Function: getNext
+ * ----------------------------
+ *   atual: HuffTree_t* huffman tree to get the it's next tree
+ *
+ *   returns: unsigned character (byte) of the atual huffman tree
+ */
+unsigned char getByte(HuffTree_t *atual);
+
+/*
+ * Function: getFrequency
+ * ----------------------------
+ *   atual: HuffTree_t* huffman tree to get the it's char (byte) frequency
+ *
+ *   returns: long long int of the tree's char (byte) frequency
+ */
+long long int getFrequency(HuffTree_t *atual);
 
 /*
  * Function: getNext
@@ -109,15 +148,6 @@ HuffTree_t* getNext(HuffTree_t *atual);
  *   returns: nothing
  */
 void setNext(HuffTree_t *atual, HuffTree_t *next);
-
-/*
- * Function: getFrequency
- * ----------------------------
- *   atual: HuffTree_t* huffman tree to get the it's char (byte) frequency
- *
- *   returns: long long int of the tree's char (byte) frequency
- */
-long long int getFrequency(HuffTree_t *atual);
 
 /*
  * Function: printNode
@@ -143,55 +173,6 @@ void printNode(HuffTree_t *atual);
 void printTreeInFile(FILE *newFile, HuffTree_t *tree);
 
 /*
- * Function: printTreePreOrder
- * ----------------------------
- *   Prints a tree with pre order
- *
- *   tree: HuffTree_t* huffman tree to print
- *
- *   returns: nothing
- */
-void printTreePreOrder(HuffTree_t *tree);
-
-/*
- * Function: printTreeInOrder
- * ----------------------------
- *   Prints a tree with in order
- *
- *   tree: HuffTree_t* huffman tree to print
- *
- *   returns: nothing
- */
-void printTreeInOrder(HuffTree_t *tree);
-
-/*
- * Function: printTreePosOrder
- * ----------------------------
- *   Prints a tree with pos order
- *
- *   tree: HuffTree_t* huffman tree to print
- *
- *   returns: nothing
- */
-void printTreePosOrder(HuffTree_t *tree);
-
-/*
- * Function: createDictionary
- * ----------------------------
- *   Creates a dictionary with a huffman tree
- *
- *   tree: HuffTree_t* huffman tree to create a dictionary with
- *   dictionary: boolean bidimensional array to be filled with the representation of a char (byte)
- *   bitsQuantity: integer array to be filled with how many bits are needed to represent a char (byte)
- *   frequency: long long integer array to be fille with how many times a char (byte) occurred in the file to compress
- *   bits: boolean array to store the new representation of the char (byte)
- *   depth: integer with the the actual height in which the recursion is
- *
- *   returns: nothing
- */
-void createDictionary(HuffTree_t *tree, bool dictionary[][256], int bitsQuantity[], long long int frequency[], bool bits[], int depth);
-
-/*
  * Function: countTrashSize
  * ----------------------------
  *   bitsQuantity: integer array with how many bits are needed to represent a char (byte)
@@ -209,21 +190,6 @@ int countTrashSize(int bitsQuantity[], long long int frequency[]);
  *   returns: integer of the amount of chars needed to print the tree
  */
 int countTreeSize(HuffTree_t *tree);
-
-/*
- * Function: decompressBytes
- * ----------------------------
- *   Descompresses the chars (bytes) of a compressed file to form a new file
- *
- *   pFile: FILE* to be read and extracted the compressed chars (bytes)
- *   newFile: FILE* to print in the decompressed bytes
- *   tree: HuffTree_t* huffman tree to know find correspondent char (byte)
- *   trashSize: integer of the trash size
- *   progressBar: long long integer of the progress bar
- *
- *   returns: nothing
- */
-void decompressBytes(FILE *pFile, FILE *newFile, HuffTree_t *tree, int trashSize, long long int progressBar[]);
 
 /*
  * Function: destroyHuffTree

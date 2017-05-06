@@ -25,6 +25,15 @@ List_t* createList();
 List_t* createListFromArray(long long int array[]);
 
 /*
+ * Function: createTreeSorted
+ * ----------------------------
+ *   list: List_t* list to create a tree with
+ *
+ *   returns: void* of a huffman tree
+ */
+HuffTree_t* createTreeFromList(List_t *list);
+
+/*
  * Function: addNode
  * ----------------------------
  *   Adds a node to a list
@@ -34,10 +43,10 @@ List_t* createListFromArray(long long int array[]);
  *
  *   returns: nothing
  */
-void addNode(List_t *list, void *newNode /*HuffTree_t*/);
+void addNode(List_t *list, HuffTree_t *newNode);
 
 /*
- * Function: addTreeSorted
+ * Function: mergeTreeSorted
  * ----------------------------
  *   Adds a tree to a list in a sorted way
  *
@@ -46,7 +55,7 @@ void addNode(List_t *list, void *newNode /*HuffTree_t*/);
  *
  *   returns: nothing
  */
-void addTreeSorted(List_t *list, void *newTree /*HuffTree_t*/);
+void addTreeSorted(List_t *list, HuffTree_t *newTree);
 
 /*
  * Function: addTreeSorted
@@ -58,15 +67,6 @@ void addTreeSorted(List_t *list, void *newTree /*HuffTree_t*/);
  *   returns: nothing
  */
 void sortList(List_t *list);
-
-/*
- * Function: addTreeSorted
- * ----------------------------
- *   list: List_t* list to create a tree with
- *
- *   returns: void* of a huffman tree
- */
-void* createTreeFromList(List_t *list);
 
 /*
  * Function: addTreeSorted

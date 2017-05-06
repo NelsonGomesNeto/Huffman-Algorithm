@@ -6,11 +6,11 @@ void updateProgress(char string[], int porcentage, bool cleaning)
   printf("%s%3d%% [", string, porcentage);
 
   // Filling Progress Bar
-  int c = porcentage / 10;
+  int progress = porcentage / 10;
   int i;
-  for (i = 0; i < c; i ++)
+  for (i = 0; i < progress; i ++)
     printf("#");
-  for (i = c; i <10; i ++)
+  for (i = progress; i < 10; i ++)
     printf(" ");
 
   if (cleaning)

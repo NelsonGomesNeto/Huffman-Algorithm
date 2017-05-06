@@ -90,6 +90,22 @@ void maxCompress(char pathFile[]);
 void compressFile(char pathFile[], unsigned char *header, bool dictionary[][256], int bitsQuantity[], HuffTree_t *tree);
 
 /*
+ * Function: createDictionary
+ * ----------------------------
+ *   Creates a dictionary with a huffman tree
+ *
+ *   tree: HuffTree_t* huffman tree to create a dictionary with
+ *   dictionary: boolean bidimensional array to be filled with the representation of a char (byte)
+ *   bitsQuantity: integer array to be filled with how many bits are needed to represent a char (byte)
+ *   frequency: long long integer array to be fille with how many times a char (byte) occurred in the file to compress
+ *   bits: boolean array to store the new representation of the char (byte)
+ *   depth: integer with the the actual height in which the recursion is
+ *
+ *   returns: nothing
+ */
+void createDictionary(HuffTree_t *tree, bool dictionary[][256], int bitsQuantity[], long long int frequency[], bool bits[], int depth);
+
+/*
  * Function: createCompressedFileName
  * ----------------------------
  *   pathFile: char array (string) with the file path

@@ -6,8 +6,6 @@ unsigned char* createHeader(int trashSize, int treeSize)
   bytes[0] = trashSize << 5 | treeSize >> 8;
   bytes[1] = treeSize;
 
-  //printf("Header: %c%c", bytes[0], bytes[1]);
-  //printTreePreOrder(tree); printf("\n");
   return(bytes);
 }
 
@@ -58,7 +56,7 @@ bool compress(char pathFile[], bool preventLoss)
   printf("Creating Header.......");
     int trashSize = countTrashSize(bitsQuantity, frequency);
     int treeSize = countTreeSize(compressedTree);
-    //printf("Trash Size: %d || Tree Size: %d\n", trashSize, treeSize);
+
     long long int fileSizeAfter = 2 + treeSize + countFutureFileSize(bitsQuantity, frequency);
     unsigned char *header = createHeader(trashSize, treeSize);
   printf(" Done\n");
@@ -170,7 +168,6 @@ void compressFile(char pathFile[], unsigned char *header, bool dictionary[][256]
       if ((pos + 1) % 8 == 0)
       {
         fprintf(newFile, "%c", newByte);
-
         newByte = 0;
       }
     }
@@ -188,6 +185,29 @@ void compressFile(char pathFile[], unsigned char *header, bool dictionary[][256]
   fclose(pFile);
   fixCompressExtension(compressedFileName);
   free(compressedFileName);
+}
+
+void createDictionary(HuffTree_t *tree, bool dictionary[][256], int bitsQuantity[], long long int frequency[], bool bits[], int depth)
+{
+	if(!isHuffTreeEmpty(tree))
+	{
+		if (isHuffTreeEmpty(getLeft(tree)) && isHuffTreeEmpty(getRight(tree)))
+		{
+      int i;
+      for (i = 0; i < depth; i ++)
+        dictionary[getByte(tree)][i] = bits[i];
+
+      bitsQuantity[getByte(tree)] = depth;
+      frequency[getByte(tree)] = getFrequency(tree);
+		}
+		else
+		{
+			bits[depth] = 0;
+			createDictionary(getLeft(tree), dictionary, bitsQuantity, frequency, bits, depth + 1);
+			bits[depth] = 1;
+			createDictionary(getRight(tree), dictionary, bitsQuantity, frequency, bits, depth + 1);
+		}
+	}
 }
 
 char* createCompressedFileName(char pathFile[])
@@ -230,4 +250,6 @@ void fixCompressExtension(char pathFile[])
     remove(pathFile);
 
   rename(originalName, pathFile);
+
+  free(originalName);
 }

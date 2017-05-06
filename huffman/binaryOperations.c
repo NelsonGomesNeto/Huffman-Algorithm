@@ -18,6 +18,5 @@ void printByte(unsigned int byte, int size)
   int i;
   for (i = size - 1; i >= 0; i --)
     printf("%d", isBitiSet(byte, i));
-
-  //printf("\n");
+    
 }

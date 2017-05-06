@@ -16,10 +16,6 @@ int* getHeader(FILE *pFile)
   treeSize = (treeSize << 8) | byte;
   header[1] = treeSize;
 
-  //  printByte(trashSize, 8); printf("\n");
-  //  printByte(treeSize, 8); printf("\n");
-  //  printf("Trash Size: %d || Tree Size: %d\n", trashSize, treeSize);
-
   return(header);
 }
 
@@ -41,7 +37,6 @@ void decompress(char pathFile[])
   int trashSize = header[0];
   int treeSize = header[1];
 
-  //printf("Decompressed Tree:\n");
   int i = 0;
   HuffTree_t *decompressedTree = NULL; createTreeFromPreFix(pFile, &decompressedTree, treeSize, &i);
   if (isHuffTreeEmpty(decompressedTree))
@@ -49,10 +44,6 @@ void decompress(char pathFile[])
     printf("We weren't able to read the tree properly\n");
     return;
   }
-  //printf("PreOrder: "); printTreePreOrder(decompressedTree); printf("\n");
-  //printf("InOrder: "); printTreeInOrder(decompressedTree); printf("\n");
-  //printf("PosOrder: "); printTreePosOrder(decompressedTree); printf("\n");
-  //printf("Tree Height %d\n", height(decompressedTree));
 
   decompressBytes(pFile, newFile, decompressedTree, trashSize, progressBar);
   printf("Decompressing File.... Done\n");
@@ -98,6 +89,55 @@ void multipleDecompress(char quantityString[], char pathFile[])
   }
 }
 
+void decompressBytes(FILE *pFile, FILE *newFile, HuffTree_t *tree, int trashSize, long long int progressBar[])
+{
+  long long int progress = 0; int atual = 0;
+  unsigned char stringToPrint[10], byte; int done = 0, i, j;
+  HuffTree_t *curr = tree, *save;
+  while (fscanf(pFile, "%c", &byte) != EOF)
+  {
+    save = curr;
+    for (j = 0; j < done; j ++)
+      fprintf(newFile, "%c", stringToPrint[j]);
+
+    for (i = 7, done = 0; i >= 0; i --)
+    {
+      if (isBitiSet(byte, i))
+        curr = getRight(curr);
+      else
+        curr = getLeft(curr);
+
+      if (isHuffTreeEmpty(getLeft(curr)) && isHuffTreeEmpty(getRight(curr)))
+      {
+        stringToPrint[done ++] = getByte(curr);
+        curr = tree;
+      }
+    }
+    if (progressBar[atual] == progress)
+      updateProgress("Decompressing File....", atual ++, true);
+
+    progress ++;
+  }
+
+  curr = save;
+  for (i = 7, done = 0; i >= trashSize; i --)
+  {
+    if (isBitiSet(byte, i))
+      curr = getRight(curr);
+    else
+      curr = getLeft(curr);
+
+    if (isHuffTreeEmpty(getLeft(curr)) && isHuffTreeEmpty(getRight(curr)))
+    {
+      stringToPrint[done ++] = getByte(curr);
+      curr = tree;
+    }
+  }
+
+  for (j = 0; j < done; j ++)
+    fprintf(newFile, "%c", stringToPrint[j]);
+}
+
 char* createDecompressedFileName(char pathFile[])
 {
   int endOfName = strlen(pathFile);
@@ -137,4 +177,6 @@ void fixDecompressExtension(char pathFile[])
   rename(pathFile, originalName);
 
   strcpy(pathFile, originalName);
+
+  free(originalName);
 }
