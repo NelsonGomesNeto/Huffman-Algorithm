@@ -62,7 +62,7 @@ void generateGraph(int size, int precision)
 
     if (i == k)
     {
-      // Testa 10 enqueues e tira a média de comparações
+      // Testa 20 enqueues e tira a média de comparações
       int mediaEnqueue = 0, mediaDequeue = 0;
       for (j = 0; j < 20; j ++)
       {
