@@ -24,7 +24,7 @@ List_t* createListFromArray(long long int array[])
   {
     if (array[i] != 0)
     {
-      void *temp;
+      HuffTree_t *temp;
       temp = createNode(i, array[i]);
 
       addNode(list, temp);
@@ -38,11 +38,11 @@ HuffTree_t* createTreeFromList(List_t *list)
   HuffTree_t *curr = list->head;
   do
   {
-    int somaDeFrequencias = getFrequency(curr) + getFrequency(getNext(curr));
+    int sumOfFrequencies = getFrequency(curr) + getFrequency(getNext(curr));
 
     list->head = getNext(getNext(curr));
 
-    HuffTree_t *newTree = createTree('*', somaDeFrequencias, curr, getNext(curr));
+    HuffTree_t *newTree = createTree('*', sumOfFrequencies, curr, getNext(curr));
 
     addTreeSorted(list, newTree);
 

@@ -154,7 +154,7 @@ void compressFile(char pathFile[], unsigned char *header, bool dictionary[][256]
   fprintf(newFile, "%c%c", header[0], header[1]);
   printTreeInFile(newFile, tree);
 
-  long long int progress = 0; int atual = 0;
+  long long int progress = 0; int currentProgress = 0;
   unsigned char byte = 0, newByte = 0; int pos = 0;
   while (fscanf(pFile, "%c", &byte) != EOF)
   {
@@ -171,8 +171,8 @@ void compressFile(char pathFile[], unsigned char *header, bool dictionary[][256]
         newByte = 0;
       }
     }
-    if (progressBar[atual] == progress)
-      updateProgress("Compressing File......\0", atual ++, true);
+    if (progressBar[currentProgress] == progress)
+      updateProgress("Compressing File......\0", currentProgress ++, true);
 
     progress ++;
   }

@@ -53,14 +53,10 @@ void createTreeFromPreFix(FILE *pFile, HuffTree_t **newTree, int end, int *i)
   }
   else
   {
-    if (expression == 92)
+    if (expression == 92 /* '/' */)
     {
-      int aux = expression;
       fscanf(pFile, "%c", &expression);
-      if (expression == '*' || expression == 92)
-        (*newTree) = createNode(expression, 0);
-      else
-        (*newTree) = createNode(aux, 0);
+      (*newTree) = createNode(expression, 0);
     }
     else
       (*newTree) = createNode(expression, 0);
@@ -77,18 +73,18 @@ HuffTree_t* createTreeFromFile(char pathFile[])
     return(NULL);
   }
 
-  long long int freq[256]; int i;
+  long long int frequency[256]; int i;
   for (i = 0; i < 256; i ++)
-    freq[i] = 0;
+    frequency[i] = 0;
 
   unsigned char bytes;
-  long long int progress = 0; int atual = 0;
+  long long int progress = 0; int currentProgress = 0;
   long long int *progressBar = createProgressBar(pFile);
   while (fscanf(pFile, "%c", &bytes) != EOF)
   {
-    freq[bytes] ++; // contagem de char no lugar certo!
-    if (progressBar[atual] == progress)
-      updateProgress("Creating Tree.........\0", atual ++, true);
+    frequency[bytes] ++; // contagem de char no lugar certo!
+    if (progressBar[currentProgress] == progress)
+      updateProgress("Creating Tree.........\0", currentProgress ++, true);
 
     progress ++;
   }
@@ -101,7 +97,7 @@ HuffTree_t* createTreeFromFile(char pathFile[])
 
   fclose(pFile);
 
-  List_t *list = createListFromArray(freq);
+  List_t *list = createListFromArray(frequency);
 
   sortList(list);
 
@@ -136,53 +132,53 @@ void swapHuffTrees(HuffTree_t *a, HuffTree_t *b)
   free(aux);
 }
 
-HuffTree_t* getLeft(HuffTree_t *atual)
+HuffTree_t* getLeft(HuffTree_t *tree)
 {
-  if (isHuffTreeEmpty(atual)) return(NULL);
+  if (isHuffTreeEmpty(tree)) return(NULL);
 
-  return(atual->left);
+  return(tree->left);
 }
 
-HuffTree_t* getRight(HuffTree_t *atual)
+HuffTree_t* getRight(HuffTree_t *tree)
 {
-  if (isHuffTreeEmpty(atual)) return(NULL);
+  if (isHuffTreeEmpty(tree)) return(NULL);
 
-  return(atual->right);
+  return(tree->right);
 }
 
-unsigned char getByte(HuffTree_t *atual)
+unsigned char getByte(HuffTree_t *tree)
 {
-  if (isHuffTreeEmpty(atual)) return(0);
+  if (isHuffTreeEmpty(tree)) return(0);
 
-  return(atual->byte);
+  return(tree->byte);
 }
 
-HuffTree_t* getNext(HuffTree_t *atual)
+HuffTree_t* getNext(HuffTree_t *tree)
 {
-  if (isHuffTreeEmpty(atual)) return(NULL);
+  if (isHuffTreeEmpty(tree)) return(NULL);
 
-  return(atual->next);
+  return(tree->next);
 }
 
-long long int getFrequency(HuffTree_t *atual)
+long long int getFrequency(HuffTree_t *tree)
 {
-  if (isHuffTreeEmpty(atual)) return(INT_MIN);
+  if (isHuffTreeEmpty(tree)) return(INT_MIN);
 
-  return(atual->frequency);
+  return(tree->frequency);
 }
 
-void setNext(HuffTree_t *atual, HuffTree_t *next)
+void setNext(HuffTree_t *tree, HuffTree_t *next)
 {
-  if (isHuffTreeEmpty(atual)) return;
+  if (isHuffTreeEmpty(tree)) return;
 
-  atual->next = next;
+  tree->next = next;
 }
 
-void printNode(HuffTree_t *atual)
+void printNode(HuffTree_t *tree)
 {
-  if (isHuffTreeEmpty(atual)) return;
+  if (isHuffTreeEmpty(tree)) return;
 
-  printf("Letra: %c || Frequencia: %lld\n", atual->byte, atual->frequency);
+  printf("Letra: %c || Frequencia: %lld\n", tree->byte, tree->frequency);
 }
 
 void printTreeInFile(FILE *newFile, HuffTree_t *tree)
@@ -214,7 +210,7 @@ int countTreeSize(HuffTree_t *tree)
   int sum = 0;
   if (!isHuffTreeEmpty(tree))
   {
-    if (isHuffTreeEmpty(tree->left) && isHuffTreeEmpty(tree->right) && (tree->byte == '*' || tree->byte == 92))
+    if (isHuffTreeEmpty(tree->left) && isHuffTreeEmpty(tree->right) && (tree->byte == '*' || tree->byte == 92 /*'\'*/))
       sum = 1;
 
     sum += 1 + countTreeSize(tree->left);

@@ -91,7 +91,7 @@ void multipleDecompress(char quantityString[], char pathFile[])
 
 void decompressBytes(FILE *pFile, FILE *newFile, HuffTree_t *tree, int trashSize, long long int progressBar[])
 {
-  long long int progress = 0; int atual = 0;
+  long long int progress = 0; int currentProgress = 0;
   unsigned char stringToPrint[10], byte; int done = 0, i, j;
   HuffTree_t *curr = tree, *save;
   while (fscanf(pFile, "%c", &byte) != EOF)
@@ -113,8 +113,8 @@ void decompressBytes(FILE *pFile, FILE *newFile, HuffTree_t *tree, int trashSize
         curr = tree;
       }
     }
-    if (progressBar[atual] == progress)
-      updateProgress("Decompressing File....", atual ++, true);
+    if (progressBar[currentProgress] == progress)
+      updateProgress("Decompressing File....", currentProgress ++, true);
 
     progress ++;
   }

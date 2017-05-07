@@ -95,70 +95,70 @@ void swapHuffTrees(HuffTree_t *a, HuffTree_t *b);
 /*
  * Function: getLeft
  * ----------------------------
- *   atual: HuffTree_t* huffman tree to get the it's next tree
+ *   tree: HuffTree_t* huffman tree to get the it's next tree
  *
  *   returns: HuffTree_t* of the left huffman tree
  */
-HuffTree_t* getLeft(HuffTree_t *atual);
+HuffTree_t* getLeft(HuffTree_t *tree);
 
 /*
  * Function: getRight
  * ----------------------------
- *   atual: HuffTree_t* huffman tree to get the it's next tree
+ *   tree: HuffTree_t* huffman tree to get the it's next tree
  *
  *   returns: HuffTree_t* of the right huffman tree
  */
-HuffTree_t* getRight(HuffTree_t *atual);
+HuffTree_t* getRight(HuffTree_t *tree);
 
 /*
  * Function: getNext
  * ----------------------------
- *   atual: HuffTree_t* huffman tree to get the it's next tree
+ *   tree: HuffTree_t* huffman tree to get the it's next tree
  *
- *   returns: unsigned character (byte) of the atual huffman tree
+ *   returns: unsigned character (byte) of the tree huffman tree
  */
-unsigned char getByte(HuffTree_t *atual);
+unsigned char getByte(HuffTree_t *tree);
 
 /*
  * Function: getFrequency
  * ----------------------------
- *   atual: HuffTree_t* huffman tree to get the it's char (byte) frequency
+ *   tree: HuffTree_t* huffman tree to get the it's char (byte) frequency
  *
  *   returns: long long int of the tree's char (byte) frequency
  */
-long long int getFrequency(HuffTree_t *atual);
+long long int getFrequency(HuffTree_t *tree);
 
 /*
  * Function: getNext
  * ----------------------------
- *   atual: HuffTree_t* huffman tree to get the it's next tree
+ *   tree: HuffTree_t* huffman tree to get the it's next tree
  *
  *   returns: HuffTree_t* of the next tree
  */
-HuffTree_t* getNext(HuffTree_t *atual);
+HuffTree_t* getNext(HuffTree_t *tree);
 
 /*
  * Function: setNext
  * ----------------------------
- *   Sets the atual tree's next tree to be the given next
+ *   Sets the tree tree's next tree to be the given next
  *
- *   atual: HuffTree_t* huffman tree to set the it's next tree
- *   next: HuffTree_t* huffman tree to be the next tree of the given atual
+ *   tree: HuffTree_t* huffman tree to set the it's next tree
+ *   next: HuffTree_t* huffman tree to be the next tree of the given tree
  *
  *   returns: nothing
  */
-void setNext(HuffTree_t *atual, HuffTree_t *next);
+void setNext(HuffTree_t *tree, HuffTree_t *next);
 
 /*
  * Function: printNode
  * ----------------------------
  *   Prints a tree's char (byte) and it's frequency
  *
- *   atual: HuffTree_t* a huffman tree/node to print
+ *   tree: HuffTree_t* a huffman tree/node to print
  *
  *   returns: nothing
  */
-void printNode(HuffTree_t *atual);
+void printNode(HuffTree_t *tree);
 
 /*
  * Function: printTreeInFile
