@@ -95,7 +95,7 @@ HuffTree_t* createTreeFromFile(char pathFile[])
 
   if (progress == 0)
   {
-    printf("This file is too god-like, it's so damn compressed that it's better to leave the way it is\n");
+    printf("This file can't be compressed.\n");
     return(NULL);
   }
 
